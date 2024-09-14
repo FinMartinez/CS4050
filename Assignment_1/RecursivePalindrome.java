@@ -3,23 +3,16 @@
  * File Name: recursive_palindrome.java
  * Author: Fin Martinez, with help from ChatGPT and CoPilot
  * Date: 9 September 2024
- * Description: [Brief description of the purpose and functionality of the class or file]
- * Linear Recursion:
-
-    Linear recursion occurs when a function calls itself once in each recursive step, 
-    typically reducing the problem size by one (or in this case, by removing the first and last characters).
-    In your isPalindromeRecursive function, each recursive call is made on a substring that removes the first and last characters of the string (str.substring(1, length - 1)), 
-    which reduces the problem size by two characters in each step.
-    The recursion continues until the base case is reached (the length of the string is 1 or less), which results in a single linear chain of calls.
+ * Description: This program checks if a given string is a palindrome using linear recursion.
+ * The program contains three classes: RecursivePalindrome, PalindromeChecker, and TestCaseRunner.
+ *      1. The RecursivePalindrome class contains the main method and user interface for the program. 
+ *         It also validates user input and provides a menu for the user to choose between running test cases or checking a custom string.
+ *      2. The PalindromeChecker class contains the recursive algorithm to check if a string is a palindrome.
+ *      3. The TestCaseRunner class runs preliminary test cases to check the functionality of the palindrome checker.
  * Version: 1.0
  */
 
  import java.util.Scanner;
-
-     /* program user proofing/validation, I guess prompt for input?
-     * Define if the recursion is mutual, linear, or tail
-     * minimum 2 classes, one for the main and one for the recursive function, one for the menu as well?
-     */
 
  public class RecursivePalindrome {
 
