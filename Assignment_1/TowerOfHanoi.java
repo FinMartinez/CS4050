@@ -95,37 +95,37 @@ class HanoiProcessor {
     /**
      * Solve the Tower of Hanoi puzzle with the given number of disks.
      * 
-     * @param n The number of disks
+     * @param numberOfDisks The number of disks
      */
 
-    public void solveTowerOfHanoi(int n) {
-        System.out.println("Solving Tower of Hanoi with " + n + " disks...");
-        towerOfHanoi(n, 'A', 'C', 'B'); //Call recursive function
+    public void solveTowerOfHanoi(int numberOfDisks) {
+        System.out.println("Solving Tower of Hanoi with " + numberOfDisks + " disks...");
+        towerOfHanoi(numberOfDisks, 'A', 'C', 'B'); //Call recursive function
     }
         
 
     /**
      * Recursive function to solve the Tower of Hanoi puzzle.
      *
-     * @param n Number of disks
+     * @param numberOfDisks Number of disks
      * @param fromRod Source rod
      * @param toRod   Destination rod
      * @param auxRod  Auxiliary rod
      */
 
-    private void towerOfHanoi(int n, char fromRod, char toRod, char auxRod) {
-        if (n == 1) {
+    private void towerOfHanoi(int numberOfDisks, char fromRod, char toRod, char auxRod) {
+        if (numberOfDisks == 1) {
             System.out.println("Move disk 1 from rod " + fromRod + " to rod " + toRod);
             return;
         }
         // Step 1: Move (n-1) disks from source to auxiliary, using destination as a buffer
-        towerOfHanoi(n - 1, fromRod, auxRod, toRod);
+        towerOfHanoi(numberOfDisks - 1, fromRod, auxRod, toRod);
         
         // Step 2: Move the nth (largest) disk from source to destination
-        System.out.println("Move disk " + n + " from " + fromRod + " to " + toRod);
+        System.out.println("Move disk " + numberOfDisks + " from " + fromRod + " to " + toRod);
         
         // Step 3: Move the (n-1) disks from auxiliary to destination, using source as a buffer
-        towerOfHanoi(n - 1, auxRod, toRod, fromRod);
+        towerOfHanoi(numberOfDisks - 1, auxRod, toRod, fromRod);
     }
     
 }
