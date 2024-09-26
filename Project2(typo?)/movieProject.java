@@ -12,19 +12,17 @@
 /*
  * NEEDS TO BE DEBUGGED!!!!!
  */
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Comparator;
-import java.util.Collections;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class movieProject {
     public static void main(String[] args){
         MovieDb movieDb = new MovieDb();
-        movieDb.loadFromCSV("movies.csv");
+        movieDb.loadFromCSV("movies_list.csv");
         DisplayMenu displayMenu = new DisplayMenu(movieDb);
         displayMenu.start();
     }
@@ -33,6 +31,7 @@ public class movieProject {
 class DisplayMenu {
     private Scanner scanner;
     private MovieDb movieDb;
+    private final String managerPassword = "password";
 
     public DisplayMenu(MovieDb movieDb){
         this.scanner = new Scanner(System.in);
@@ -52,12 +51,22 @@ class DisplayMenu {
                     userMode();
                     break;
                 case 2:
-                    managerMode();
+                    verifyManager(); // validate admin password
                     break;
                 default:
                     System.out.println("Invalid input. Please try again.");
                     break;
             }
+        }
+    }
+
+    private void verifyManager(){
+        System.err.println("Enter the manager password: ");
+        String password = scanner.nextLine();
+        if (password.equals(managerPassword)){
+            managerMode();
+        } else {
+            System.out.println("Invalid password. Please try again.");
         }
     }
 
@@ -178,6 +187,10 @@ class DisplayMenu {
 
         movieDb.sortMovies(attribute, sortType, ascending);
         System.out.println("Movies sorted successfully.");
+
+        //Display newly sorted movies
+        System.out.println("Results of movies sorted by " + sortType + " sort:");
+        movieDb.displayAllMovies();
     }
 
     private int getIntPut(int min, int max){
@@ -244,13 +257,45 @@ class MovieDb {
     public void loadFromCSV(String filePath){
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
+            boolean isFirstLine = true;
             while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                movieList.add(new Movie(values[0], values[1], values[2], Integer.parseInt(values[3])));
+                if (isFirstLine){
+                    isFirstLine = false;
+                    continue;
+                }
+                String[] values = parseCSVLine(line);
+                if (values.length == 4){
+                    String title = values[0].trim();
+                    String genre = values[1].trim();
+                    String director = values[2].trim();
+                    String yearStr = values[3].trim();
+                    try {
+                        int year = Integer.parseInt(yearStr);
+                        movieList.add(new Movie(title, genre, director, year));
+                    } catch (NumberFormatException e){
+                        System.out.println("Invalid year format: " + yearStr);
+                    }
+                } else {
+                    System.out.println("Invalid .csv format: " + line);
+
+                }
             }
         } catch (IOException e) {
             System.out.println("An error occurred:" + e.getMessage());
         }
+    }
+
+    private String[] parseCSVLine(String line){
+        List<String> values = new ArrayList<>();
+        Matcher matcher = Pattern.compile("\"([^\"]*)\"|([^,]+)").matcher(line);
+        while (matcher.find()){
+            if (matcher.group(1) != null){
+                values.add(matcher.group(1));
+            } else {
+                values.add(matcher.group(2));
+            }
+        }
+        return values.toArray(new String[0]);
     }
 
     public void addMovie(Movie movie){
@@ -262,6 +307,8 @@ class MovieDb {
     }
 
     public List<Movie> searchMovies(String query, String attribute, boolean binarySearch, boolean ascending){
+        long startTime = System.nanoTime();
+
         List<Movie> results = new ArrayList<>();
         switch (attribute.toLowerCase()) {
             case "title":
@@ -279,6 +326,12 @@ class MovieDb {
             default:
                 System.out.println("Invalid attribute. Please try again.");
         }
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;
+
+        System.out.println("Search time: " + duration + "ms");
+
         return results;
     }
 
@@ -379,6 +432,8 @@ class MovieDb {
     }
 
     public void sortMovies(String attribute, String sortType, boolean ascending){
+        long startTime = System.nanoTime();
+
         Comparator<Movie> comparator;
         switch (attribute.toLowerCase()) {
             case "title":
@@ -417,6 +472,11 @@ class MovieDb {
             default:
                 System.out.println("Invalid sort type. Please try again.");
         }
+
+        long endTime = System.nanoTime();
+        long duration = (endTime - startTime) / 1000000;
+
+        System.out.println("Sort time: " + duration + "ms");
     }
 
     private void bubbleSort(Comparator<Movie> comparator){
@@ -504,233 +564,3 @@ class MovieDb {
         }
     }
 }
-
-/*
-    public void sortMovies(int choice){
-        // Sort movies
-        switch (choice) {
-            case 1:
-                System.err.println("How would you like to sort the movies?");
-                System.err.println("1. Ascending");
-                System.err.println("2. Descending");
-                Scanner scanner = new Scanner(System.in);
-                int sortChoice = scanner.nextInt();
-                scanner.nextLine();
-                if (sortChoice == 1){
-                    movieList.sort((movie1, movie2) -> movie1.getTitle().compareTo(movie2.getTitle()));
-                } else if (sortChoice == 2){
-                    movieList.sort((movie1, movie2) -> movie2.getTitle().compareTo(movie1.getTitle()));
-                } else {
-                    System.out.println("Invalid input. Please try again.");
-                }
-                break;
-            case 2:
-                System.err.println("How would you like to sort the movies?");
-                System.err.println("1. Ascending");
-                System.err.println("2. Descending");
-                Scanner scanner2 = new Scanner(System.in);
-                int sortChoice2 = scanner2.nextInt();
-                scanner2.nextLine();
-                if (sortChoice2 == 1){
-                    movieList.sort((movie1, movie2) -> movie1.getGenre().compareTo(movie2.getGenre()));
-                } else if (sortChoice2 == 2){
-                    movieList.sort((movie1, movie2) -> movie2.getGenre().compareTo(movie1.getGenre()));
-                } else {
-                    System.out.println("Invalid input. Please try again.");
-                }
-                break;
-            case 3:
-                System.err.println("How would you like to sort the movies?");
-                System.err.println("1. Ascending");
-                System.err.println("2. Descending");
-                Scanner scanner3 = new Scanner(System.in);
-                int sortChoice3 = scanner3.nextInt();
-                scanner3.nextLine();
-                if (sortChoice3 == 1){
-                    movieList.sort((movie1, movie2) -> movie1.getDirector().compareTo(movie2.getDirector()));
-                } else if (sortChoice3 == 2){
-                    movieList.sort((movie1, movie2) -> movie2.getDirector().compareTo(movie1.getDirector()));
-                } else {
-                    System.out.println("Invalid input. Please try again.");
-                }
-                break;
-            case 4:
-                System.err.println("How would you like to sort the movies?");
-                System.err.println("1. Ascending");
-                System.err.println("2. Descending");
-                Scanner scanner4 = new Scanner(System.in);
-                int sortChoice4 = scanner4.nextInt();
-                scanner4.nextLine();
-                if (sortChoice4 == 1){
-                    movieList.sort((movie1, movie2) -> movie1.getYear() - movie2.getYear());
-                } else if (sortChoice4 == 2){
-                    movieList.sort((movie1, movie2) -> movie2.getYear() - movie1.getYear());
-                } else {
-                    System.out.println("Invalid input. Please try again.");
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void displayAllMovies(){
-        for (Movie movie : movieList){
-            System.out.println(movie);
-        }
-    }
-}
-*/
-
-/*
- * class MovieManager {
-
-    private boolean managerMode = false;
-
-    public void movieManager(){
-        //ArrayList<Movie> movieList = new ArrayList<Movie>();
-        // ^ May not need this line
-    }
-
-    public void setManagerMode(boolean mode){
-        this.managerMode = mode;
-    }
-
-    public boolean isManagerMode(){
-        return this.managerMode;
-    }
-
-    public void run(){
-        // Read in a list of movies from a file
-        // Clear the database
-        // Read in a .csv file containing 16+ movies for use with the program
-        Scanner scanner = new Scanner(System.in);
-        Boolean validInput = true;
-
-        while (validInput){
-            displayMenu();
-            if (scanner.hasNextInt()) {
-                int choice = scanner.nextInt();
-                scanner.nextLine();
-
-                switch(choice){
-                    case 1:
-                        // Add a movie
-                        if (isManagerMode()){
-                            addMovie();
-                        } else {
-                            System.out.println("You do not have permission to add a movie.");
-                        }
-                        break;
-                    case 2:
-                        // Remove a movie
-                        if (isManagerMode()){
-                            removeMovie();
-                        } else {
-                            System.out.println("You do not have permission to remove a movie.");
-                        }
-                        break;
-                    case 3:
-                        // Search for a movie
-                        searchSelection();
-                        break;
-                    case 4:
-                        // Sort movies
-                        sortSelection();
-                        break;
-                    case 5:
-                        // Display all movies
-                        displayAllMovies();
-                        break;
-                    case 6:
-                        // Exit
-                        validInput = false;
-                        break;
-                    default:
-                        System.out.println("Invalid input. Please try again.");
-                        break;
-                }
-            }
-        }
-    }
-
-    public void addMovie(){
-        // Add a movie
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the title of the movie: ");
-        String title = scanner.nextLine();
-        System.out.println("Enter the genre of the movie: ");
-        String genre = scanner.nextLine();
-        System.out.println("Enter the director of the movie: ");
-        String director = scanner.nextLine();
-        System.out.println("Enter the year the movie was released: ");
-        int year = scanner.nextInt();
-        scanner.nextLine();
-        MovieDb.addMovie(new Movie(title, genre, director, year));
-        scanner.close();
-    }
-
-    public void removeMovie(){
-        // Remove a movie
-        System.out.println("Enter the title of the movie you would like to remove: ");
-        Scanner scanner = new Scanner(System.in);
-        String title = scanner.nextLine();
-        MovieDb movieDb = new MovieDb();
-        movieDb.removeMovie(title);
-        scanner.nextLine();
-        scanner.close();
-    }
-
-    public void searchSelection(){
-        // Search for a movie
-        System.out.println("Enter a search keyword: ");
-        Scanner scanner = new Scanner(System.in);
-        String keyword = scanner.nextLine();
-        MovieDb movieDb = new MovieDb();   
-        movieDb.searchMovie(keyword);
-        scanner.close();
-    }
-
-    public void sortSelection(){
-        // Sort movies
-        System.out.println("Please select a sorting criteria:");
-        System.out.println("1. Sort by title");
-        System.out.println("2. Sort by genre");
-        System.out.println("3. Sort by director");
-        System.out.println("4. Sort by year");
-        Scanner scanner = new Scanner(System.in);
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        // Sort the movies
-        MovieDb movieDb = new MovieDb();
-        movieDb.sortMovies(choice);
-        scanner.close();   
-    }   
-
-    public void toggleMode(Scanner scanner){
-        // Toggle between user and manager mode
-        System.out.println("Please enter the password to toggle modes: ");
-        String password = scanner.nextLine();
-        if (password.equals("password")){
-            setManagerMode(!isManagerMode());
-        } else {
-            System.out.println("Incorrect password. Please try again.");
-        }
-    }
-
-    public void displayAllMovies(){
-        // Display all movies
-    }
-
-    public void displayMenu(){
-        System.out.println("Please select an option:");
-        System.out.println("1. Add a movie");
-        System.out.println("2. Remove a movie");
-        System.out.println("3. Search for a movie");
-        System.out.println("4. Sort movies");
-        System.out.println("5. Display all movies");
-        System.out.println("6. Exit");
-    }
-}
- */
