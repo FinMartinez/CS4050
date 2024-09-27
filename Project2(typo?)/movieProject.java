@@ -1,17 +1,38 @@
-/*
-* 1. Include all sorting/searching methods brought up in class
-* - 4 sorting methods minimum
-* - 2 searching methods minimum
-*
-* 2. Read in a list of movies from a file
-3. Needs to have two modes: user mode and manager mode
-- User mode: can search for movies, sort movies, and display all movies
-- Manager mode: can add movies, remove movies, search for movies, sort movies, and display all movies
-*/
+/**
+ * Movie Database Application
+ * 
+ * This application provides functionality to manage and search through a collection 
+ * of movies. Users can view, sort, and search movies by various attributes such as 
+ * title, genre, director, and year. In manager mode, additional options are available 
+ * to add or remove movies from the database.
+ * 
+ * Features:
+ * - User and Manager modes with password protection for manager mode.
+ * - Add, remove, search, and display movies.
+ * - Sort movies by various attributes using different sorting algorithms:
+ *      - Bubble sort
+ *      - Merge sort
+ *      - Selection sort
+ *      - Quick sort
+ * - Search movies by title, genre, director, or year using linear or binary search.
+ * - Validate user inputs to ensure robustness and prevent invalid entries.
+ * 
+ * Classes:
+ * - Movie: Represents a single movie entity with attributes like title, genre, director, and year.
+ * - MovieDb: Manages a collection of Movie objects, providing methods to add, remove, sort, and search movies.
+ * - DisplayMenu: Handles user interactions through a text-based menu system, allowing navigation through 
+ *                different features and functionalities of the application.
+ * 
+ * Author: Fin Martinez, with help from ChatGPT and GitHub Copilot
+ * Date: 9/26/2024
+ * Version: 1.0
+ */
 
 /*
- * NEEDS TO BE DEBUGGED!!!!!
+ * Debugging: so far so good...
  */
+
+// Importing required libraries
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -19,6 +40,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// Main class
 public class movieProject {
     public static void main(String[] args){
         MovieDb movieDb = new MovieDb();
@@ -28,21 +50,24 @@ public class movieProject {
     }
 }
 
+// Display Menu and main user interaction
 class DisplayMenu {
     private Scanner scanner;
     private MovieDb movieDb;
+    // Manager password (no peeking!)
     private final String managerPassword = "password";
 
     public DisplayMenu(MovieDb movieDb){
         this.scanner = new Scanner(System.in);
         this.movieDb = movieDb;
     }
+
     public void start() {
         while(true){
-            System.err.println("Please specify user mode or manager mode:");
-            System.err.println("1. User mode");
-            System.err.println("2. Manager mode");
-            System.err.println("3. Exit");
+            System.out.println("Please specify user mode or manager mode:");
+            System.out.println("1. User mode");
+            System.out.println("2. Manager mode");
+            System.out.println("3. Exit");
             int choice = getIntPut(1, 3);
             if (choice == 3) break;
 
@@ -54,32 +79,31 @@ class DisplayMenu {
                     verifyManager(); // validate admin password
                     break;
                 default:
-                    System.out.println("Invalid input. Please try again.");
+                    System.err.println("Invalid input. Please try again.");
                     break;
             }
         }
     }
 
     private void verifyManager(){
-        System.err.println("Enter the manager password: ");
+        System.out.println("Enter the manager password: ");
         String password = scanner.nextLine();
         if (password.equals(managerPassword)){
             managerMode();
         } else {
-            System.out.println("Invalid password. Please try again.");
+            System.err.println("Invalid password. Please try again.");
         }
     }
 
-
     private void managerMode(){
         while(true){
-            System.err.println("Please select an option:");
-            System.err.println("1. Add a movie");
-            System.err.println("2. Remove a movie");
-            System.err.println("3. Search for a movie");
-            System.err.println("4. Sort movies");
-            System.err.println("5. Display all movies");
-            System.err.println("6. Exit");
+            System.out.println("Please select an option:");
+            System.out.println("1. Add a movie");
+            System.out.println("2. Remove a movie");
+            System.out.println("3. Search for a movie");
+            System.out.println("4. Sort movies");
+            System.out.println("5. Display all movies");
+            System.out.println("6. Exit");
             int choice = getIntPut(1, 6);
             if (choice == 6) break;
 
@@ -100,7 +124,7 @@ class DisplayMenu {
                     movieDb.displayAllMovies();
                     break;
                 default:
-                    System.out.println("Invalid input. Please try again.");
+                    System.err.println("Invalid input. Please try again.");
                     break;
             }
         }
@@ -108,11 +132,11 @@ class DisplayMenu {
 
     private void userMode(){
         while(true){
-            System.err.println("Please select an option:");
-            System.err.println("1. Search for a movie");
-            System.err.println("2. Sort movies");
-            System.err.println("3. Display all movies");
-            System.err.println("4. Exit");
+            System.out.println("Please select an option:");
+            System.out.println("1. Search for a movie");
+            System.out.println("2. Sort movies");
+            System.out.println("3. Display all movies");
+            System.out.println("4. Exit");
             int choice = getIntPut(1, 4);
             if (choice == 4) break;
 
@@ -127,48 +151,55 @@ class DisplayMenu {
                     movieDb.displayAllMovies();
                     break;
                 default:
-                    System.out.println("Invalid input. Please try again.");
+                    System.err.println("Invalid input. Please try again.");
                     break;
             }
         }
     }
 
     private void addMovie(){
-        System.err.println("Enter the title of the movie: ");
-        String title = scanner.nextLine();
-        System.err.println("Enter the genre of the movie: ");
-        String genre = scanner.nextLine();
-        System.err.println("Enter the director of the movie: ");
-        String director = scanner.nextLine();
-        System.err.println("Enter the year the movie was released: ");
-        int year = getIntPut(1888, 2100);
+        System.out.println("Enter the title of the movie: ");
+        String title = getStringInput(); //Validate title input
+
+        System.out.println("Enter the genre of the movie: ");
+        String genre = getStringInput(); //Validate genre input
+
+        System.out.println("Enter the director of the movie: ");
+        String director = getStringInput(); //Validate director input
+
+        System.out.println("Enter the year the movie was released: ");
+        int year = getIntPut(1888, 2100); //Validate year input
 
         Movie movie = new Movie(title, genre, director, year);
         movieDb.addMovie(movie);
+
         System.out.println("Movie added successfully.");
     }
 
     private void removeMovie(){
-        System.err.println("Enter the title of the movie you would like to remove: ");
-        String title = scanner.nextLine();
+        System.out.println("Enter the title of the movie you would like to remove: ");
+        String title = getStringInput();
         movieDb.removeMovie(title);
         System.out.println("Movie removed successfully.");
     }
 
     private void searchMovie(){
-        System.err.println("Enter an attribute to search by (title, genre, director, year): ");
-        String attribute = scanner.nextLine();
+        System.out.println("Enter an attribute to search by (title, genre, director, year): ");
+        String attribute = getAttrInput();
+
         System.out.println("Enter a search query: ");
-        String query = scanner.nextLine();
+        String query = getStringInput();
+
         System.out.println("Binary search? (true/false)");
-        boolean binarySearch = scanner.nextBoolean();
+        boolean binarySearch = getBoolInput();
+
         System.out.println("Sort ascending? (true/false)");
-        boolean ascending = scanner.nextBoolean();
+        boolean ascending = getBoolInput();
         scanner.nextLine();
 
         List<Movie> results = movieDb.searchMovies(query, attribute, binarySearch, ascending);
         if (results.isEmpty()){
-            System.out.println("No results found.");
+            System.err.println("No results found.");
         } else {
             for (Movie movie : results){
                 System.out.println(movie);
@@ -177,12 +208,14 @@ class DisplayMenu {
     }
 
     private void sortMovies(){
-        System.err.println("Enter an attribute to sort by (title, genre, director, year): ");
-        String attribute = scanner.nextLine();
-        System.err.println("Enter a sort type (bubble(1), merge(2), selection(3), quick(4)): ");
-        String sortType = scanner.nextLine();
+        System.out.println("Enter an attribute to sort by (title, genre, director, year): ");
+        String attribute = getAttrInput();
+
+        System.out.println("Enter a sort type (bubble, merge, selection, quick): ");
+        String sortType = getSortInput();
+
         System.out.println("Sort ascending? (true/false)");
-        boolean ascending = scanner.nextBoolean();
+        boolean ascending = getBoolInput();
         scanner.nextLine();
 
         movieDb.sortMovies(attribute, sortType, ascending);
@@ -201,10 +234,59 @@ class DisplayMenu {
                 if (choice >= min && choice <= max){
                     return choice;
                 } else {
-                    System.out.println("Invalid input. Please try again.");
+                    System.err.println("Invalid input. Please try again.");
                 }
             } catch (NumberFormatException e){
-                System.out.println("Invalid input. Please try again.");
+                System.err.println("Invalid input. Please try again.");
+            }
+        }
+    }
+
+    private String getStringInput(){
+        String input;
+        while (true){
+            input = scanner.nextLine().trim();
+            if(!input.isEmpty()){
+                return input;
+            } else {
+                System.err.println("Input cannot be empty. Please try again.");
+            }
+        }
+    }
+
+    private boolean getBoolInput(){
+        while(true){
+            String input = scanner.nextLine().trim().toLowerCase();
+            if (input.equals("true")){
+                return true;
+            } else if (input.equals("false")){
+                return false;
+            } else {
+                System.err.println("Invalid input. Please enter 'true' or 'false'.");
+            }
+        }
+    }
+
+    private String getAttrInput(){
+        String attribute;
+        while(true){
+            attribute = scanner.nextLine().trim().toLowerCase();
+            if (attribute.equals("title") || attribute.equals("genre") || attribute.equals("director") || attribute.equals("year")){
+                return attribute;
+            } else {
+                System.err.println("Invalid attribute. Please enter 'title', 'genre', 'director', or 'year'.");
+            }
+        }
+    }
+
+    private String getSortInput(){
+        String sortType;
+        while(true){
+            sortType = scanner.nextLine().trim().toLowerCase();
+            if (sortType.equals("bubble") || sortType.equals("merge") || sortType.equals("selection") || sortType.equals("quick")){
+                return sortType;
+            } else {
+                System.err.println("Invalid sort type. Please enter 'bubble', 'merge', 'selection', or 'quick'.");
             }
         }
     }
@@ -248,13 +330,15 @@ class Movie {
 
 class MovieDb {
     private List<Movie> movieList;
-
+    private Set<String> movieTitles = new HashSet<>();
+    //May need more, depending...
 
     public MovieDb(){
         this.movieList = new ArrayList<>();
     }
 
     public void loadFromCSV(String filePath){
+
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             boolean isFirstLine = true;
@@ -263,7 +347,9 @@ class MovieDb {
                     isFirstLine = false;
                     continue;
                 }
+                System.out.println("Reading line: " + line);
                 String[] values = parseCSVLine(line);
+                System.out.println("Values: " + Arrays.toString(values));
                 if (values.length == 4){
                     String title = values[0].trim();
                     String genre = values[1].trim();
@@ -271,21 +357,27 @@ class MovieDb {
                     String yearStr = values[3].trim();
                     try {
                         int year = Integer.parseInt(yearStr);
-                        movieList.add(new Movie(title, genre, director, year));
+                        if (!movieTitles.contains(title)){
+                            movieList.add(new Movie(title, genre, director, year));
+                            movieTitles.add(title);
+                        } else {
+                            System.err.println("Duplicate movie title: " + title);
+                        }
                     } catch (NumberFormatException e){
-                        System.out.println("Invalid year format: " + yearStr);
+                        System.err.println("Invalid year format: " + yearStr);
                     }
                 } else {
-                    System.out.println("Invalid .csv format: " + line);
+                    System.err.println("Invalid .csv format: " + line);
 
                 }
             }
         } catch (IOException e) {
-            System.out.println("An error occurred:" + e.getMessage());
+            System.err.println("An error occurred:" + e.getMessage());
         }
     }
 
     private String[] parseCSVLine(String line){
+
         List<String> values = new ArrayList<>();
         Matcher matcher = Pattern.compile("\"([^\"]*)\"|([^,]+)").matcher(line);
         while (matcher.find()){
@@ -366,6 +458,7 @@ class MovieDb {
     }
 
     private List<Movie> binarySearchByTitle(String title){
+
         List<Movie> results = new ArrayList<>();
         int index = Collections.binarySearch(movieList, new Movie(title, "", "", 0), Comparator.comparing(Movie::getTitle, String.CASE_INSENSITIVE_ORDER));
         if (index >= 0){
@@ -375,6 +468,7 @@ class MovieDb {
     }
 
     private List<Movie> linearSearchByGenre(String genre){
+
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
             if (movie.getGenre().equalsIgnoreCase(genre)){
@@ -385,6 +479,7 @@ class MovieDb {
     }
 
     private List<Movie> binarySearchByGenre(String genre){
+
         List<Movie> results = new ArrayList<>();
         int index = Collections.binarySearch(movieList, new Movie("", genre, "", 0), Comparator.comparing(Movie::getGenre, String.CASE_INSENSITIVE_ORDER));
         if (index >= 0){
@@ -394,6 +489,7 @@ class MovieDb {
     }
 
     private List<Movie> linearSearchByDirector(String director){
+
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
             if (movie.getDirector().equalsIgnoreCase(director)){
@@ -404,6 +500,7 @@ class MovieDb {
     }
 
     private List<Movie> binarySearchByDirector(String director){
+
         List<Movie> results = new ArrayList<>();
         int index = Collections.binarySearch(movieList, new Movie("", "", director, 0), Comparator.comparing(Movie::getDirector, String.CASE_INSENSITIVE_ORDER));
         if (index >= 0){
@@ -413,6 +510,7 @@ class MovieDb {
     }
 
     private List<Movie> linearSearchByYear(int year){
+
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
             if (movie.getYear() == year){
@@ -423,6 +521,7 @@ class MovieDb {
     }
 
     private List<Movie> binarySearchByYear(int year){
+
         List<Movie> results = new ArrayList<>();
         int index = Collections.binarySearch(movieList, new Movie("", "", "", year), Comparator.comparing(Movie::getYear));
         if (index >= 0){
@@ -449,7 +548,7 @@ class MovieDb {
                 comparator = Comparator.comparing(Movie::getYear);
                 break;
             default:
-                System.out.println("Invalid attribute. Please try again.");
+                System.err.println("Invalid attribute. Please try again.");
                 return;
         }
         if (!ascending){
@@ -470,7 +569,7 @@ class MovieDb {
                 quickSort(0, movieList.size() - 1, comparator);
                 break;
             default:
-                System.out.println("Invalid sort type. Please try again.");
+                System.err.println("Invalid sort type. Please try again.");
         }
 
         long endTime = System.nanoTime();
@@ -480,6 +579,7 @@ class MovieDb {
     }
 
     private void bubbleSort(Comparator<Movie> comparator){
+
         int n = movieList.size();
         for (int i = 0; i < n - 1; i++){
             for (int j = 0; j < n - i - 1; j++){
@@ -491,6 +591,7 @@ class MovieDb {
     }
 
     private void mergeSort(int left, int right, Comparator<Movie> comparator){
+
         if (left < right){
             int middle = (left + right) / 2;
             mergeSort(left, middle, comparator);
@@ -500,6 +601,7 @@ class MovieDb {
     }
 
     private void merge(int left, int middle, int right, Comparator<Movie> comparator){
+
         List<Movie> leftList = new ArrayList<>(movieList.subList(left, middle + 1));
         List<Movie> rightList = new ArrayList<>(movieList.subList(middle + 1, right + 1));
 
@@ -525,6 +627,7 @@ class MovieDb {
     }
 
     private void selectionSort(Comparator<Movie> comparator){
+
         int n = movieList.size();
         for (int i = 0; i < n - 1; i++){
             int minIndex = i;
@@ -538,6 +641,7 @@ class MovieDb {
     }
 
     private void quickSort(int low, int high, Comparator<Movie> comparator){
+
         if (low < high){
             int pi = partition(low, high, comparator);
             quickSort(low, pi - 1, comparator);
@@ -546,6 +650,7 @@ class MovieDb {
     }
 
     private int partition(int low, int high, Comparator<Movie> comparator){
+        
         Movie pivot = movieList.get(high);
         int i = low - 1;
         for (int j = low; j < high; j++){
