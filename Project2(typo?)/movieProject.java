@@ -103,7 +103,7 @@ class DisplayMenu {
             System.out.println("3. Search for a movie");
             System.out.println("4. Sort movies");
             System.out.println("5. Display all movies");
-            System.out.println("6. Exit");
+            System.out.println("6. Return to main menu");
             int choice = getIntPut(1, 6);
             if (choice == 6) break;
 
@@ -136,7 +136,7 @@ class DisplayMenu {
             System.out.println("1. Search for a movie");
             System.out.println("2. Sort movies");
             System.out.println("3. Display all movies");
-            System.out.println("4. Exit");
+            System.out.println("4. Return to main menu");
             int choice = getIntPut(1, 4);
             if (choice == 4) break;
 
@@ -191,6 +191,7 @@ class DisplayMenu {
         String query = getStringInput();
 
         System.out.println("Binary search? (true/false)");
+        System.out.println("Notice: If Binary search is selected, quick sort will be used for sorting.");
         boolean binarySearch = getBoolInput();
 
         System.out.println("Sort ascending? (true/false)");
@@ -218,11 +219,21 @@ class DisplayMenu {
         boolean ascending = getBoolInput();
         scanner.nextLine();
 
-        movieDb.sortMovies(attribute, sortType, ascending);
-        System.out.println("Movies sorted successfully.");
+        //Make copy of movie list to sort
+        List<Movie> sortedMovies = new ArrayList<>(movieDb.getMovies());
+        movieDb.sortMovies(sortedMovies, attribute, sortType, ascending);
+
+        //Debugging
+        System.out.println("After sorting, sorted list contains:");
+        movieDb.displayMovies(sortedMovies);
+        //System.out.println("Movies sorted successfully.");
 
         //Display newly sorted movies
         System.out.println("Results of movies sorted by " + sortType + " sort:");
+        movieDb.displayMovies(sortedMovies);
+
+        //Debugging
+        System.out.println("Original list contains:");
         movieDb.displayAllMovies();
     }
 
@@ -329,15 +340,25 @@ class Movie {
 }
 
 class MovieDb {
-    private List<Movie> movieList;
+    private ArrayList<Movie> movieList;
     private Set<String> movieTitles = new HashSet<>();
     //May need more, depending...
 
     public MovieDb(){
-        this.movieList = new ArrayList<>();
+        movies = new ArrayList<Movie>();
+    }
+
+    public MovieDb(ArrayList<Movie> newMovies){
+        movieList = newMovies;
+    }
+
+    public List<Movie> getMovies(){
+        return new ArrayList<>(movies);
     }
 
     public void loadFromCSV(String filePath){
+        //Clear existing movie list before loading new data
+        clearMovies();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -361,19 +382,35 @@ class MovieDb {
                             movieList.add(new Movie(title, genre, director, year));
                             movieTitles.add(title);
                         } else {
-                            System.err.println("Duplicate movie title: " + title);
+                            System.err.println("Duplicate detected, not adding movie: " + title);
                         }
                     } catch (NumberFormatException e){
                         System.err.println("Invalid year format: " + yearStr);
                     }
                 } else {
                     System.err.println("Invalid .csv format: " + line);
-
                 }
             }
         } catch (IOException e) {
             System.err.println("An error occurred:" + e.getMessage());
         }
+        verifyNoDuplicates();
+    }
+
+    void clearMovies() {
+        movieList.clear();
+        movieTitles.clear();
+        System.out.println("Movie list and titles cleared.");
+    }
+
+    void verifyNoDuplicates() {
+        Set<String> seenMovies = new HashSet<>();
+        for (Movie movie : movieList){
+            if(!seenMovies.add(movie.getTitle())){
+                System.err.println("Duplicate movie title: " + movie.getTitle());
+            }
+        }
+        System.out.println("Duplicate check complete. Total unique movies: " + seenMovies.size());
     }
 
     private String[] parseCSVLine(String line){
@@ -391,7 +428,13 @@ class MovieDb {
     }
 
     public void addMovie(Movie movie){
-        movieList.add(movie);
+        if(!movieTitles.contains(movie.getTitle())){
+            movieList.add(movie);
+            movieTitles.add(movie.getTitle());
+        } else {
+            System.err.println("Duplicate movie title: " + movie.getTitle());
+        }
+        //movieList.add(movie);
     }
 
     public void removeMovie(String title){
@@ -399,7 +442,6 @@ class MovieDb {
     }
 
     public List<Movie> searchMovies(String query, String attribute, boolean binarySearch, boolean ascending){
-        long startTime = System.nanoTime();
 
         List<Movie> results = new ArrayList<>();
         switch (attribute.toLowerCase()) {
@@ -419,35 +461,40 @@ class MovieDb {
                 System.out.println("Invalid attribute. Please try again.");
         }
 
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;
-
-        System.out.println("Search time: " + duration + "ms");
-
         return results;
     }
 
     private List<Movie> searchByTitle(String title, boolean binarySearch, boolean ascending){
-        sortMovies("title", "merge", ascending);
-        return binarySearch ? binarySearchByTitle(title) : linearSearchByTitle(title);
+        List<Movie> sortedMovies = new ArrayList<>(movieList);
+
+        long sortStartTime = System.nanoTime();
+        sortMovies(sortedMovies, "title", "merge", ascending);
+        long sortEndTime = System.nanoTime();
+        long sortDuration = (sortEndTime - sortStartTime) / 1000000;
+        System.out.println("Sort time: " + sortDuration + "ms");
+
+        return binarySearch ? binarySearchByTitle(title, sortedMovies) : linearSearchByTitle(title, sortedMovies);
     }
 
     private List<Movie> searchByGenre(String genre, boolean binarySearch, boolean ascending){
-        sortMovies("genre", "merge", ascending);
-        return binarySearch ? binarySearchByGenre(genre) : linearSearchByGenre(genre);
+        List<Movie> sortedMovies = new ArrayList<>(movieList);
+        sortMovies(sortedMovies, "genre", "merge", ascending);
+        return binarySearch ? binarySearchByGenre(genre, sortedMovies) : linearSearchByGenre(genre, sortedMovies);
     }
 
     private List<Movie> searchByDirector(String director, boolean binarySearch, boolean ascending){
-        sortMovies("director", "merge", ascending);
-        return binarySearch ? binarySearchByDirector(director) : linearSearchByDirector(director);
+        List<Movie> sortedMovies = new ArrayList<>(movieList);
+        sortMovies(sortedMovies, "director", "merge", ascending);
+        return binarySearch ? binarySearchByDirector(director, sortedMovies) : linearSearchByDirector(director, sortedMovies);
     }
 
     private List<Movie> searchByYear(int year, boolean binarySearch, boolean ascending){
-        sortMovies("year", "merge", ascending);
-        return binarySearch ? binarySearchByYear(year) : linearSearchByYear(year);
+        List<Movie> sortedMovies = new ArrayList<>(movieList);
+        sortMovies(sortedMovies, "year", "merge", ascending);
+        return binarySearch ? binarySearchByYear(year, sortedMovies) : linearSearchByYear(year, sortedMovies);
     }
 
-    private List<Movie> linearSearchByTitle(String title){
+    private List<Movie> linearSearchByTitle(String title, List<Movie> sortedMovies){
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
             if (movie.getTitle().equalsIgnoreCase(title)){
@@ -457,17 +504,32 @@ class MovieDb {
         return results;
     }
 
-    private List<Movie> binarySearchByTitle(String title){
+    private List<Movie> binarySearchByTitle(String title, List<Movie> movieList){
 
+        List<Movie> binarySorting = new ArrayList<>(movieList);
         List<Movie> results = new ArrayList<>();
-        int index = Collections.binarySearch(movieList, new Movie(title, "", "", 0), Comparator.comparing(Movie::getTitle, String.CASE_INSENSITIVE_ORDER));
+
+        Comparator<Movie> comparator = Comparator.comparing(Movie::getTitle, String.CASE_INSENSITIVE_ORDER);
+        quickSort(0, binarySorting.size() - 1, comparator, binarySorting);
+
+        int index = Collections.binarySearch(binarySorting, new Movie(title, "", "", 0), comparator);
         if (index >= 0){
-            results.add(movieList.get(index));
+            //Find all movies with the same title
+            int left = index;
+            while (left >= 0 && binarySorting.get(left).getTitle().equalsIgnoreCase(title)){
+                results.add(binarySorting.get(left));
+                left--;
+            }
+            int right = index + 1;
+            while (right < binarySorting.size() && binarySorting.get(right).getTitle().equalsIgnoreCase(title)){
+                results.add(binarySorting.get(right));
+                right++;
+            }
         }
         return results;
     }
 
-    private List<Movie> linearSearchByGenre(String genre){
+    private List<Movie> linearSearchByGenre(String genre, List<Movie> sortedMovies){
 
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
@@ -478,17 +540,29 @@ class MovieDb {
         return results;
     }
 
-    private List<Movie> binarySearchByGenre(String genre){
+    private List<Movie> binarySearchByGenre(String genre, List<Movie> sortedMovies){
+        Comparator<Movie> comparator = Comparator.comparing(Movie::getGenre, String.CASE_INSENSITIVE_ORDER);
+        quickSort(0, sortedMovies.size() - 1, comparator, sortedMovies);
 
         List<Movie> results = new ArrayList<>();
-        int index = Collections.binarySearch(movieList, new Movie("", genre, "", 0), Comparator.comparing(Movie::getGenre, String.CASE_INSENSITIVE_ORDER));
+        int index = Collections.binarySearch(sortedMovies, new Movie("", genre, "", 0), comparator);
         if (index >= 0){
-            results.add(movieList.get(index));
+            //Find all movies with the same genre
+            int left = index;
+            while (left >= 0 && sortedMovies.get(left).getGenre().equalsIgnoreCase(genre)){
+                results.add(sortedMovies.get(left));
+                left--;
+            }
+            int right = index + 1;
+            while (right < sortedMovies.size() && sortedMovies.get(right).getGenre().equalsIgnoreCase(genre)){
+                results.add(sortedMovies.get(right));
+                right++;
+            }
         }
         return results;
     }
 
-    private List<Movie> linearSearchByDirector(String director){
+    private List<Movie> linearSearchByDirector(String director, List<Movie> sortedMovies){
 
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
@@ -499,17 +573,29 @@ class MovieDb {
         return results;
     }
 
-    private List<Movie> binarySearchByDirector(String director){
+    private List<Movie> binarySearchByDirector(String director, List<Movie> sortedMovies){
+        Comparator<Movie> comparator = Comparator.comparing(Movie::getDirector, String.CASE_INSENSITIVE_ORDER);
+        quickSort(0, sortedMovies.size() - 1, comparator, sortedMovies);
 
         List<Movie> results = new ArrayList<>();
-        int index = Collections.binarySearch(movieList, new Movie("", "", director, 0), Comparator.comparing(Movie::getDirector, String.CASE_INSENSITIVE_ORDER));
+        int index = Collections.binarySearch(sortedMovies, new Movie("", "", director, 0), comparator);
         if (index >= 0){
-            results.add(movieList.get(index));
+            //Find all movies with the same director
+            int left = index;
+            while (left >= 0 && sortedMovies.get(left).getDirector().equalsIgnoreCase(director)){
+                results.add(sortedMovies.get(left));
+                left--;
+            }
+            int right = index + 1;
+            while (right < sortedMovies.size() && sortedMovies.get(right).getDirector().equalsIgnoreCase(director)){
+                results.add(sortedMovies.get(right));
+                right++;
+            }
         }
         return results;
     }
 
-    private List<Movie> linearSearchByYear(int year){
+    private List<Movie> linearSearchByYear(int year, List<Movie> sortedMovies){
 
         List<Movie> results = new ArrayList<>();
         for (Movie movie : movieList){
@@ -520,18 +606,29 @@ class MovieDb {
         return results;
     }
 
-    private List<Movie> binarySearchByYear(int year){
+    private List<Movie> binarySearchByYear(int year, List<Movie> sortedMovies){
+        Comparator<Movie> comparator = Comparator.comparing(Movie::getYear);
+        quickSort(0, sortedMovies.size() - 1, comparator, sortedMovies);
 
         List<Movie> results = new ArrayList<>();
-        int index = Collections.binarySearch(movieList, new Movie("", "", "", year), Comparator.comparing(Movie::getYear));
+        int index = Collections.binarySearch(sortedMovies, new Movie("", "", "", year), comparator);
         if (index >= 0){
-            results.add(movieList.get(index));
+            //Find all movies with the same year
+            int left = index;
+            while (left >= 0 && sortedMovies.get(left).getYear() == year){
+                results.add(sortedMovies.get(left));
+                left--;
+            }
+            int right = index + 1;
+            while (right < sortedMovies.size() && sortedMovies.get(right).getYear() == year){
+                results.add(sortedMovies.get(right));
+                right++;
+            }
         }
         return results;
     }
 
-    public void sortMovies(String attribute, String sortType, boolean ascending){
-        long startTime = System.nanoTime();
+    public void sortMovies(List<Movie> sortedMovies, String attribute, String sortType, boolean ascending){
 
         Comparator<Movie> comparator;
         switch (attribute.toLowerCase()) {
@@ -560,22 +657,18 @@ class MovieDb {
                 bubbleSort(comparator);
                 break;
             case "merge":
-                mergeSort(0, movieList.size() - 1, comparator);
+                mergeSort(0, sortedMovies.size() - 1, comparator);
                 break;
             case "selection":
                 selectionSort(comparator);
                 break;
             case "quick":
-                quickSort(0, movieList.size() - 1, comparator);
+                quickSort(0, sortedMovies.size() - 1, comparator, sortedMovies);
                 break;
             default:
                 System.err.println("Invalid sort type. Please try again.");
         }
 
-        long endTime = System.nanoTime();
-        long duration = (endTime - startTime) / 1000000;
-
-        System.out.println("Sort time: " + duration + "ms");
     }
 
     private void bubbleSort(Comparator<Movie> comparator){
@@ -639,32 +732,45 @@ class MovieDb {
             Collections.swap(movieList, i, minIndex);
         }
     }
-
-    private void quickSort(int low, int high, Comparator<Movie> comparator){
+    //THIS MIGHT BE THAT DAMNED BUG!
+    // Changed movieList to sortedMovies for testing
+    private void quickSort(int low, int high, Comparator<Movie> comparator, List<Movie> sortedMovies){
 
         if (low < high){
-            int pi = partition(low, high, comparator);
-            quickSort(low, pi - 1, comparator);
-            quickSort(pi + 1, high, comparator);
+            int pi = partition(low, high, comparator, sortedMovies);
+            quickSort(low, pi - 1, comparator, sortedMovies);
+            quickSort(pi + 1, high, comparator, sortedMovies);
         }
     }
 
-    private int partition(int low, int high, Comparator<Movie> comparator){
+    private int partition(int low, int high, Comparator<Movie> comparator, List<Movie> sortedMovies){
         
-        Movie pivot = movieList.get(high);
+        Movie pivot = sortedMovies.get(high);
         int i = low - 1;
         for (int j = low; j < high; j++){
-            if (comparator.compare(movieList.get(j), pivot) < 0){
+            if (comparator.compare(sortedMovies.get(j), pivot) < 0){
                 i++;
-                Collections.swap(movieList, i, j);
+                Collections.swap(sortedMovies, i, j);
             }
         }
-        Collections.swap(movieList, i + 1, high);
+        Collections.swap(sortedMovies, i + 1, high);
         return i + 1;
     }
 
     public void displayAllMovies(){
+        System.out.println("All movies in the internal database:");
+        Set<String> seenMovies = new HashSet<>();
         for (Movie movie : movieList){
+            if(seenMovies.add(movie.getTitle())){
+                System.out.println(movie);
+            } else {
+                System.err.println("Duplicate movie title: " + movie.getTitle());
+            }
+        }
+    }
+
+    public void displayMovies(List<Movie> movies){
+        for (Movie movie : movies){
             System.out.println(movie);
         }
     }
