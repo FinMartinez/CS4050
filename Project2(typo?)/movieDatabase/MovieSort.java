@@ -1,7 +1,6 @@
 package movieDatabase;
 
 import java.util.*;
-
 public class MovieSort {
     MovieDb movieDb = new MovieDb();
     ArrayList<Movie> movieList = movieDb.getMovies();
@@ -29,6 +28,7 @@ public class MovieSort {
         if (!ascending){
             comparator = comparator.reversed();
         }
+        long startTime = System.currentTimeMillis();
 
         switch (sortType.toLowerCase()) {
             case "bubble":
@@ -46,6 +46,10 @@ public class MovieSort {
             default:
                 System.err.println("Invalid sort type. Please try again.");
         }
+
+        long endTime = System.currentTimeMillis();
+        System.out.println("Processing time: " + (endTime - startTime) + " ms");
+
         return movieList;
     }
 
@@ -109,8 +113,7 @@ public class MovieSort {
             Collections.swap(movieList, i, minIndex);
         }
     }
-    //THIS MIGHT BE THAT DAMNED BUG!
-    // Changed movieList to sortedMovies for testing
+    
     protected static void quickSort(int low, int high, Comparator<Movie> comparator, ArrayList<Movie> movieList){
 
         if (low < high){

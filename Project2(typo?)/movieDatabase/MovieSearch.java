@@ -3,7 +3,6 @@ package movieDatabase;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
 public class MovieSearch {
     MovieDb movieDb = new MovieDb();
     ArrayList<Movie> movieList = movieDb.getMovies();
@@ -11,6 +10,8 @@ public class MovieSearch {
     public static ArrayList<Movie> searchMovies(ArrayList<Movie> movieList, String query, String attribute, boolean binarySearch, boolean ascending){
 
         ArrayList<Movie> results = new ArrayList<>();
+        long startTime = System.currentTimeMillis();
+
         switch (attribute.toLowerCase()) {
             case "title":
                 results = searchByTitle(movieList, query, binarySearch, ascending);
@@ -28,6 +29,8 @@ public class MovieSearch {
                 System.out.println("Invalid attribute. Please try again.");
         }
 
+        long endTime = System.currentTimeMillis();
+        System.out.println("Processing time: " + (endTime - startTime) + " ms");
         return results;
     }
 

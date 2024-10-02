@@ -44,9 +44,9 @@ class MovieDb {
                     isFirstLine = false;
                     continue;
                 }
-                System.out.println("Reading line: " + line);
+                //System.out.println("Reading line: " + line);
                 String[] values = parseCSVLine(line);
-                System.out.println("Values: " + Arrays.toString(values));
+                //System.out.println("Values: " + Arrays.toString(values));
                 if (values.length == 4){
                     String title = values[0].trim();
                     String genre = values[1].trim();
@@ -109,25 +109,5 @@ class MovieDb {
     public void removeMovie(String title){
         movies.removeIf(movie -> movie.getTitle().equalsIgnoreCase(title));
     }
-
-    /******************************
-    public void displayAllMovies(){
-        System.out.println("All movies in the internal database:");
-        Set<String> seenMovies = new HashSet<>();
-        for (Movie movie : movies){
-            if(seenMovies.add(movie.getTitle())){
-                System.out.println(movie);
-            } else {
-                System.err.println("Duplicate movie title: " + movie.getTitle());
-            }
-        }
-    }
-
-    public void displayMovies(List<Movie> movies){
-        for (Movie movie : movies){
-            System.out.println(movie);
-        }
-    }
-    ******************************/
 
 }

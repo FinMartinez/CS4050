@@ -153,7 +153,6 @@ class MainMenu {
 
         System.out.println("Sort ascending? (true/false)");
         boolean ascending = getBoolInput();
-        //scanner.nextLine();
 
         ArrayList<Movie> movieList = movieDb.getMovies();
         ArrayList<Movie> results = MovieSearch.searchMovies(movieList, query, attribute, binarySearch, ascending);
@@ -175,13 +174,11 @@ class MainMenu {
 
         System.out.println("Sort ascending? (true/false)");
         boolean ascending = getBoolInput();
-        //scanner.nextLine();
 
-        //Make copy of movie list to sort
         ArrayList<Movie> movieList = movieDb.getMovies();
         ArrayList<Movie> sortedMovies = MovieSort.sortMovies(movieList, attribute, sortType, ascending);
         
-        //Debugging
+        //Display sorted list
         System.out.println("After sorting, sorted list contains:");
         for (Movie movie : sortedMovies){
             System.out.println(movie);
