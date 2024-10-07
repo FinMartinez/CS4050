@@ -1,0 +1,99 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>22</x><y>47</y><w>189</w><h>171</h></coordinates><panel_attributes>&lt;&lt;Driver&gt;&gt;
+Package::movieDatabase
+--
+movieDb(MovieDb)
+displayMenu(MainMenu(movieDb)		
+--
++main(String [])		
+--
+Responsibilities
+-- movieDb.loadFromCSVFile(csv file)
+-- displayMenu.start()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>22</x><y>263</y><w>189</w><h>387</h></coordinates><panel_attributes>&lt;&lt;MainMenu&gt;&gt;
+Package::movieDatabase
+--
+-Scanner: scanner
+-MovieDb: movieDb
+-String: managerPassword (final)
+--
++start():void
+-verifyManager():void
+-managerMode():void
+-userMode():void
+-addMove():void
+-removeMovie():void
+-searchMovie():void
+-sortMovies():void
+-getIntPut(int min, int max): int
+-getStringInput(): String
+-getBoolInput(): boolean
+-getAttrInput(): String
+-getSortInput():String
+--
+Responsibilities
+-- movieDb.addMovie(movie)
+-- movieDb.getMovies()
+-- movieDb.removeMovie(title)
+-- MovieDb.searchMovies(params)
+-- MovieDb.sortMovies(params)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>13</x><y>722</y><w>189</w><h>207</h></coordinates><panel_attributes>&lt;&lt;Movie&gt;&gt;
+Package::movieDatabase
+{Constructor class}
+--
+-title(String)
+-genre(String)
+-director(String)
+-year(int)
+--
++Movie(title, genre, director, year)
++getTitle:String
++getGenre:String
++getDirector:String
++getYear:int
++toString:String (@Override)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>292</x><y>344</y><w>189</w><h>198</h></coordinates><panel_attributes>&lt;&lt;MovieDb&gt;&gt;
+Package::movieDatabase
+--
+-movies: ArrayList(movies)
+-movieTitles: Set(String)
++MovieDb()
++MovieDb(ArrayList(Movie))
+--
++loadFromCSV(filepath): void
+-parseCSVLine(String): String []
++addMovie(Movie): void
++removeMovie(Movie):void
+--
+clearMovies: void
+verifyNoDuplicates: void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>679</x><y>11</y><w>414</w><h>288</h></coordinates><panel_attributes>&lt;&lt;MovieSearch&gt;&gt;
+Package::movieDatabase
+--
+movieDb(MovieDb)
+movieList(movieDb.getMovies)
+--
++searchMovies(ArrayList, String, String, boolean, boolean): ArrayList&lt;Movie&gt;
+-searchByTitle(ArrayList, String, boolean, boolean):ArrayList
+-searchByGenre(ArrayList, String, boolean, boolean):ArrayList
+-searchByDirector(ArrayList, String, boolean, boolean):ArrayList
+-searchByYear(ArrayList, int, boolean, boolean):ArrayList
+-linearSearchByTitle(ArrayList, String):ArrayList
+-binarySearchByTitle(ArrayList, String):ArrayList
+-linearSearchByGenre(ArrayList, String):ArrayList
+-binarySearchByGenre(ArrayList, String):ArrayList
+-linearSearchByDirector(ArrayList, String):ArrayList
+-binarySearchByDirector(ArrayList, String):ArrayList
+-linearSearchByYear(ArrayList, int): ArrayList
+-binarySearchByYear)ArrayList, int): ArrayList
+--
+Responsibilities
+--MovieSort.quickSort(int, ArrayList, ArrayList, ArrayList)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>488</y><w>324</w><h>180</h></coordinates><panel_attributes>&lt;&lt;MovieSort&gt;&gt;
+Package::movieDatabase
+--
+movieDb(MovieDb)
+movieList(movieDb.getMovies)
+--
++sortMovies(ArrayList, String, String, boolean): ArrayList
+-bubbleSort(ArrayList, Comparator): void
+-mergeSort(ArrayList, int, int, Comparator): void
+-merge(ArrayList, int, int, int, Comparator): void
+-selectionSort(ArrayList, Comparator): void
+-quickSort(int, int, Comparator, ArrayList): void
+-partition(int, int, Comparator, ArrayList): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>103</x><y>209</y><w>27</w><h>72</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>193</x><y>533</y><w>207</w><h>234</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;240;210;240;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>202</x><y>272</y><w>189</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>190;80;190;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>778</x><y>290</y><w>27</w><h>216</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;220;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>290</y><w>252</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;10;260;80;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>380</y><w>252</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;120;260;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>202</x><y>20</y><w>495</w><h>306</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;320;270;320;270;10;530;10</additional_attributes></element><element><id>Relation</id><coordinates><x>202</x><y>569</y><w>486</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;520;10</additional_attributes></element></diagram>
