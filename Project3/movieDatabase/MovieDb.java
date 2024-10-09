@@ -8,26 +8,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 class MovieDb {
-    private ArrayList<Movie> movies;
+    private ArrayList<Movie> movieArray;
 
     private Set<String> movieTitles = new HashSet<>();
     //May need more, depending...
 
     public MovieDb(){
-        movies = new ArrayList<Movie>();
+        movieArray = new ArrayList<Movie>();
     }
 
     public MovieDb(ArrayList<Movie> newMovies){
-        movies = newMovies;
+        movieArray = newMovies;
     }
 
     public ArrayList<Movie> getMovies(){
         //Return a copy of the list to prevent direct modification
-        return new ArrayList<>(movies);
+        return new ArrayList<>(movieArray);
     }
 
     void clearMovies() {
-        movies.clear();
+        movieArray.clear();
         movieTitles.clear();
         System.out.println("Movie list and titles cleared.");
     }
@@ -55,7 +55,7 @@ class MovieDb {
                     try {
                         int year = Integer.parseInt(yearStr);
                         if (!movieTitles.contains(title)){
-                            movies.add(new Movie(title, genre, director, year));
+                            movieArray.add(new Movie(title, genre, director, year));
                             movieTitles.add(title);
                         } else {
                             System.err.println("Duplicate detected, not adding movie: " + title);
@@ -75,7 +75,7 @@ class MovieDb {
 
     void verifyNoDuplicates() {
         Set<String> seenMovies = new HashSet<>();
-        for (Movie movie : movies){
+        for (Movie movie : movieArray){
             if(!seenMovies.add(movie.getTitle())){
                 System.err.println("Duplicate movie title: " + movie.getTitle());
             }
@@ -99,7 +99,7 @@ class MovieDb {
 
     public void addMovie(Movie movie){
         if(!movieTitles.contains(movie.getTitle())){
-            movies.add(movie);
+            movieArray.add(movie);
             movieTitles.add(movie.getTitle());
         } else {
             System.err.println("Duplicate movie title: " + movie.getTitle());
@@ -107,7 +107,22 @@ class MovieDb {
     }
 
     public void removeMovie(String title){
-        movies.removeIf(movie -> movie.getTitle().equalsIgnoreCase(title));
+        movieArray.removeIf(movie -> movie.getTitle().equalsIgnoreCase(title));
     }
 
+    public BinarySearchTree<Movie> toBinarySearchTree(){
+        BinarySearchTree<Movie> movieTree = new BinarySearchTree<>();
+        for (Movie movie : movieArray){
+            movieTree.insert(movie);
+        }
+        return movieTree;
+    }
+
+    public SinglyLinkedList<Movie> toSinglyLinkedList(){
+        SinglyLinkedList<Movie> movieList = new SinglyLinkedList<>();
+        for (Movie movie : movieArray){
+            movieList.insert(movie);
+        }
+        return movieList;
+    }
 }

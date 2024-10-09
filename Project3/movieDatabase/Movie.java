@@ -1,6 +1,6 @@
 package movieDatabase;
 
-class Movie {
+class Movie implements Comparable<Movie> {
     private String title;
     private String genre;
     private String director;
@@ -27,6 +27,23 @@ class Movie {
 
     public int getYear(){
         return year;
+    }
+
+    @Override
+    public int compareTo(Movie other){
+        return title.compareTo(other.title);
+    }
+
+    public int compareByGenre(Movie other){
+        return genre.compareTo(other.genre);
+    }
+
+    public int compareByDirector(Movie other){
+        return director.compareTo(other.director);
+    }
+
+    public int compareByYear(Movie other){
+        return Integer.compare(this.year, other.year);
     }
 
     @Override

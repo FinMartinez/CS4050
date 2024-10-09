@@ -4,14 +4,26 @@ import java.util.Scanner;
 import java.util.*;
 
 class MainMenu {
+
     private Scanner scanner;
     private MovieDb movieDb;
+    private BinarySearchTree<Movie> movieTree;
+    //private SinglyLinkedList<Movie> movieList;
+    private ArrayList<Movie> movieArray;
+
     // Manager password (no peeking!)
     private final String managerPassword = "password";
 
     public MainMenu(MovieDb movieDb){
         this.scanner = new Scanner(System.in);
         this.movieDb = movieDb;
+        this.movieArray = movieDb.getMovies();
+        this.movieTree = new BinarySearchTree<>();
+
+        // Populate binary search tree
+        for (Movie movie : movieArray){
+            movieTree.insert(movie);
+        }
     }
 
     public void start() {
@@ -129,6 +141,8 @@ class MainMenu {
 
         Movie movie = new Movie(title, genre, director, year);
         movieDb.addMovie(movie);
+        movieArray.add(movie);
+        movieTree.insert(movie);
 
         System.out.println("Movie added successfully.");
     }
@@ -147,21 +161,58 @@ class MainMenu {
         System.out.println("Enter a search query: ");
         String query = getStringInput();
 
-        System.out.println("Binary search? (true/false)");
-        System.out.println("Notice: If Binary search is selected, quick sort will be used for sorting.");
-        boolean binarySearch = getBoolInput();
+        //may need to toss in a switch statement when I add in SingleLinkedList
+        System.out.println("Use binary search with BST? (true/false)");
+        boolean useBST = getBoolInput();
 
-        System.out.println("Sort ascending? (true/false)");
-        boolean ascending = getBoolInput();
+        if (useBST){
+            //impletement BST search to find movie and display it
+            Movie searchMovie = createSearchMovie(attribute, query);
 
-        ArrayList<Movie> movieList = movieDb.getMovies();
-        ArrayList<Movie> results = MovieSearch.searchMovies(movieList, query, attribute, binarySearch, ascending);
-        if (results.isEmpty()){
-            System.err.println("No results found.");
-        } else {
-            for (Movie movie : results){
-                System.out.println(movie);
+            //Search for movie in BST
+            boolean found = movieTree.search(searchMovie, attribute);
+            
+            if (found){
+                System.out.println("Movie found: " + searchMovie);
+            } else {
+                System.err.println("Movie not found.");
             }
+        } else {}
+            System.out.println("Binary search? (true/false)");
+            System.out.println("Notice: If Binary search is selected, quick sort will be used for sorting.");
+            boolean binarySearch = getBoolInput();
+
+            System.out.println("Sort ascending? (true/false)");
+            boolean ascending = getBoolInput();
+
+            ArrayList<Movie> movieList = movieDb.getMovies();
+            ArrayList<Movie> results = MovieSearch.searchMovies(movieList, query, attribute, binarySearch, ascending);
+            if (results.isEmpty()){
+                System.err.println("No results found.");
+            } else {
+                for (Movie movie : results){
+                    System.out.println(movie);
+                }
+            }
+    }
+
+    private Movie createSearchMovie(String attribute, String query){
+        switch(attribute.toLowerCase()){
+            case "genre":
+                return new Movie("", query, "", 0);
+            case "director":
+                return new Movie("", "", query, 0);
+            case "year":
+                try {
+                    int year = Integer.parseInt(query);
+                    return new Movie("", "", "", year);
+                } catch (NumberFormatException e){
+                    System.err.println("Invalid year format.");
+                    return null;
+                }
+            case "title":
+            default:
+                return new Movie(query, "", "", 0);
         }
     }
 
@@ -175,8 +226,8 @@ class MainMenu {
         System.out.println("Sort ascending? (true/false)");
         boolean ascending = getBoolInput();
 
-        ArrayList<Movie> movieList = movieDb.getMovies();
-        ArrayList<Movie> sortedMovies = MovieSort.sortMovies(movieList, attribute, sortType, ascending);
+        //ArrayList<Movie> movieList = movieDb.getMovies();
+        ArrayList<Movie> sortedMovies = MovieSort.sortMovies(movieArray, attribute, sortType, ascending);
         
         //Display sorted list
         System.out.println("After sorting, sorted list contains:");
