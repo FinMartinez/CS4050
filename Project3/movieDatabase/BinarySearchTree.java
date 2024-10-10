@@ -36,7 +36,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return root;
     }
     
-    public boolean search(Movie movie, String attribute) {
+    public boolean searchByAttribute(Movie movie, String attribute) {
         return searchRec(root, movie, attribute);
     }
 
@@ -46,7 +46,8 @@ public class BinarySearchTree<T extends Comparable<T>> {
             return false;
         }
         
-        int comparisonResult;
+        int comparisonResult = 0;
+        
         switch(attribute.toLowerCase()){
             case "title":
                 comparisonResult = ((Movie) root.data).compareTo(movie);
@@ -64,6 +65,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
                 System.err.println("Invalid attribute.");
                 return false;
         }
+
 
         if (comparisonResult == 0) {
             return true;

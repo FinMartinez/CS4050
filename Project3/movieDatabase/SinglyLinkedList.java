@@ -1,6 +1,6 @@
 package movieDatabase;
 
-public class SinglyLinkedList<T> {
+public class SinglyLinkedList<T extends Movie> {
     
     private class Node {
         T data;
@@ -31,10 +31,30 @@ public class SinglyLinkedList<T> {
         }
     }
 
-    public boolean search(T data) {
+    public boolean search(Movie movie, String attribute) {
         Node current = head;
         while (current != null) {
-            if (current.data.equals(data)) {
+            Movie currentMovie = (Movie) current.data;
+            boolean found = false;
+            switch(attribute.toLowerCase()){
+                case "title":
+                    found = currentMovie.getTitle().equalsIgnoreCase(movie.getTitle());                    
+                    break;
+                case "genre":
+                    found = currentMovie.getGenre().equalsIgnoreCase(movie.getGenre());
+                    break;
+                case "director":
+                    found = currentMovie.getDirector().equalsIgnoreCase(movie.getDirector());
+                    break;
+                case "year":
+                    found = currentMovie.getYear() == movie.getYear();
+                    break;
+                default:
+                    System.out.println("Invalid attribute.");
+                    return false;
+            }
+            if (found) {
+                System.out.println("Movie found: " + current.data);
                 return true;
             }
             current = current.next;

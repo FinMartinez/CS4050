@@ -172,51 +172,97 @@ class MainMenu {
         String query = getStringInput();
 
         //may need to toss in a switch statement when I add in SingleLinkedList
-        System.out.println("Use binary search with BST? (true/false)");
-        boolean useBST = getBoolInput();
+        System.out.println("Please select a data structure to use for search: ");
+        System.out.println("1. Binary Search Tree");
+        System.out.println("2. Singly Linked List");
+        System.out.println("3. Array List");
+        System.out.println("NOTE: Binary search is only supported for title search.");
+        int choice = getIntPut(1, 3);
+        //boolean useBST = getBoolInput();
 
-        if (useBST){
-            //impletement BST search to find movie and display it
+        switch(choice){
+            case 1:
+            //may need alterations
             if (!attribute.equals("title")){
                 System.err.println("Binary search is only supported for title search.");
                 return;
-            }
-            Movie searchMovie = createSearchMovie(attribute, query);
-            //Start clock
-            long startTime = System.currentTimeMillis();
-            // Execute search
-            boolean found = movieTree.search(searchMovie, attribute);
-            //Stop clock
-            long endTime = System.currentTimeMillis();
-
-            //Calculate time taken
-            long elapsedTime = (endTime - startTime) / 100_000_000;
-
-            if (found){
-                System.out.println("Movie found: " + searchMovie);
             } else {
-                System.err.println("Movie not found.");
+                searchBST(attribute, query);
             }
-
-            System.out.println("Processing time: " + elapsedTime + " ms");
-
-        } else {}
-            System.out.println("Binary search? (true/false)");
-            System.out.println("Notice: If Binary search is selected, quick sort will be used for sorting.");
-            boolean binarySearch = getBoolInput();
-
-            System.out.println("Sort ascending? (true/false)");
-            boolean ascending = getBoolInput();
-
-            ArrayList<Movie> movieList = movieDb.getMovies();
-            ArrayList<Movie> results = MovieSearch.searchMovies(movieList, query, attribute, binarySearch, ascending);
-            if (results.isEmpty()){
-                System.err.println("No results found.");
-            } else {
-                for (Movie movie : results){
-                    System.out.println(movie);
-                }
+                break;
+            case 2:
+                searchList(attribute, query);
+                break;
+            case 3:
+                arraySearch(attribute, query);
+                break;
+            default:
+                System.err.println("Invalid input. Please try again.");
+                break;
             }
+        }
+
+    private void searchBST(String attribute, String query){
+        Movie searchMovie = createSearchMovie(attribute, query);
+
+        //Start clock
+        long startTime = System.currentTimeMillis();
+        // Execute search
+        boolean found = movieTree.searchByAttribute(searchMovie, attribute);
+        //Stop clock
+        long endTime = System.currentTimeMillis();
+
+        //Calculate time taken
+        long elapsedTime = (endTime - startTime);
+
+        if (found){
+            System.out.println("Movie found: " + searchMovie);
+        } else {
+            System.err.println("Movie not found.");
+        }
+
+        System.out.println("Processing time: " + elapsedTime + " ms");
+    }
+
+    private void searchList(String attribute, String query){
+        Movie searchMovie = createSearchMovie(attribute, query);
+
+        //Start clock
+        long startTime = System.currentTimeMillis();
+        // Execute search
+        boolean found = movieList.search(searchMovie, attribute);
+        //Stop clock
+        long endTime = System.currentTimeMillis();
+
+        //Calculate time taken
+        long elapsedTime = (endTime - startTime) / 100_000_000;
+
+        if (found){
+            System.out.println("Movie found: " + searchMovie);
+        } else {
+            System.err.println("Movie not found.");
+        }
+
+        System.out.println("Processing time: " + elapsedTime + " ms");
+    }
+
+    private void arraySearch(String attribute, String query){
+        System.out.println("Binary search? (true/false)");
+        System.out.println("Notice: If Binary search is selected, quick sort will be used for sorting.");
+        boolean binarySearch = getBoolInput();
+
+        System.out.println("Sort ascending? (true/false)");
+        boolean ascending = getBoolInput();
+
+        ArrayList<Movie> movieList = movieDb.getMovies();
+        ArrayList<Movie> results = MovieSearch.searchMovies(movieList, query, attribute, binarySearch, ascending);
+        if (results.isEmpty()){
+            System.err.println("No results found.");
+        } else {
+            for (Movie movie : results){
+                System.out.println(movie);
+            }
+        }
     }
 
     private Movie createSearchMovie(String attribute, String query){
