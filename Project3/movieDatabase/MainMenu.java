@@ -8,7 +8,7 @@ class MainMenu {
     private Scanner scanner;
     private MovieDb movieDb;
     private BinarySearchTree<Movie> movieTree;
-    //private SinglyLinkedList<Movie> movieList;
+    private SinglyLinkedList<Movie> movieList;
     private ArrayList<Movie> movieArray;
 
     // Manager password (no peeking!)
@@ -19,10 +19,20 @@ class MainMenu {
         this.movieDb = movieDb;
         this.movieArray = movieDb.getMovies();
         this.movieTree = new BinarySearchTree<>();
+        this.movieList = new SinglyLinkedList<>();
 
         // Populate binary search tree
         for (Movie movie : movieArray){
             movieTree.insert(movie);
+        }
+
+        // Print movies in sorted order (inorder traversal)
+        System.out.println("Movies in sorted order:");
+        movieTree.inOrder();
+
+        // Populate singly linked list
+        for (Movie movie : movieArray){
+            movieList.insert(movie);
         }
     }
 
@@ -167,16 +177,29 @@ class MainMenu {
 
         if (useBST){
             //impletement BST search to find movie and display it
+            if (!attribute.equals("title")){
+                System.err.println("Binary search is only supported for title search.");
+                return;
+            }
             Movie searchMovie = createSearchMovie(attribute, query);
-
-            //Search for movie in BST
+            //Start clock
+            long startTime = System.currentTimeMillis();
+            // Execute search
             boolean found = movieTree.search(searchMovie, attribute);
-            
+            //Stop clock
+            long endTime = System.currentTimeMillis();
+
+            //Calculate time taken
+            long elapsedTime = (endTime - startTime) / 100_000_000;
+
             if (found){
                 System.out.println("Movie found: " + searchMovie);
             } else {
                 System.err.println("Movie not found.");
             }
+
+            System.out.println("Processing time: " + elapsedTime + " ms");
+
         } else {}
             System.out.println("Binary search? (true/false)");
             System.out.println("Notice: If Binary search is selected, quick sort will be used for sorting.");
@@ -198,21 +221,17 @@ class MainMenu {
 
     private Movie createSearchMovie(String attribute, String query){
         switch(attribute.toLowerCase()){
+            case "title":
+                return new Movie(query, "", "", 0);
             case "genre":
                 return new Movie("", query, "", 0);
             case "director":
                 return new Movie("", "", query, 0);
             case "year":
-                try {
-                    int year = Integer.parseInt(query);
-                    return new Movie("", "", "", year);
-                } catch (NumberFormatException e){
-                    System.err.println("Invalid year format.");
-                    return null;
-                }
-            case "title":
+                return new Movie("", "", "", Integer.parseInt(query));
             default:
-                return new Movie(query, "", "", 0);
+                System.err.println("Invalid attribute.");
+                return null;
         }
     }
 

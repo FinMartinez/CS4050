@@ -31,7 +31,7 @@ class Movie implements Comparable<Movie> {
 
     @Override
     public int compareTo(Movie other){
-        return title.compareTo(other.title);
+        return this.title.trim().toLowerCase().compareTo(other.title.trim().toLowerCase());
     }
 
     public int compareByGenre(Movie other){

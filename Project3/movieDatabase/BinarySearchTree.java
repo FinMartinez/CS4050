@@ -42,6 +42,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
 
     private boolean searchRec(Node root, Movie movie, String attribute) {
         if (root == null) {
+            System.out.println("Reached a leaf node, no movie found.");
             return false;
         }
         
@@ -49,6 +50,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
         switch(attribute.toLowerCase()){
             case "title":
                 comparisonResult = ((Movie) root.data).compareTo(movie);
+                break;
             case "genre":
                 comparisonResult = ((Movie) root.data).compareByGenre(movie);
                 break;
@@ -70,19 +72,8 @@ public class BinarySearchTree<T extends Comparable<T>> {
         } else {
             return searchRec(root.right, movie, attribute);
         }
-        /*
-        if (data.compareTo(root.data) == 0) {
-            return true;
-        }
-        
-        if (data.compareTo(root.data) < 0) {
-            return searchRec(root.left, data);
-        } else {
-            return searchRec(root.right, data);
-        }
-        */
     }
-    /*
+    
     public void inOrder() {
         inOrder(root);
     }
@@ -96,7 +87,5 @@ public class BinarySearchTree<T extends Comparable<T>> {
         System.out.println(node.data);
         inOrder(node.right);
     }
-
-    */
     
 }
