@@ -1,6 +1,10 @@
 package movieDatabase;
 
-public class SinglyLinkedList<T extends Movie> {
+
+//imports
+import java.util.Iterator;
+
+public class SinglyLinkedList<T extends Movie> implements Iterable<T> {
     
     private class Node {
         T data;
@@ -31,34 +35,68 @@ public class SinglyLinkedList<T extends Movie> {
         }
     }
 
-    public boolean search(Movie movie, String attribute) {
+    public SinglyLinkedList<Movie> searchListAttribute(Movie searchMovie, String attribute) {
+        SinglyLinkedList<Movie> matchingMovies = new SinglyLinkedList<>();
         Node current = head;
+
         while (current != null) {
             Movie currentMovie = (Movie) current.data;
-            boolean found = false;
+
+            int comparisonResult = 0;
+
             switch(attribute.toLowerCase()){
                 case "title":
-                    found = currentMovie.getTitle().equalsIgnoreCase(movie.getTitle());                    
+                    comparisonResult = currentMovie.compareTo(searchMovie);                    
                     break;
                 case "genre":
-                    found = currentMovie.getGenre().equalsIgnoreCase(movie.getGenre());
+                    comparisonResult = currentMovie.getGenre().trim().toLowerCase()
+                            .compareTo(searchMovie.getGenre().trim().toLowerCase()); 
                     break;
                 case "director":
-                    found = currentMovie.getDirector().equalsIgnoreCase(movie.getDirector());
+                    comparisonResult = currentMovie.getDirector().trim().toLowerCase()
+                            .compareTo(searchMovie.getDirector().trim().toLowerCase()); 
                     break;
                 case "year":
-                    found = currentMovie.getYear() == movie.getYear();
+                    comparisonResult = Integer.compare(currentMovie.getYear(), searchMovie.getYear());
+                    //comparisonResult = currentMovie.compareByYear(searchMovie); 
                     break;
                 default:
                     System.out.println("Invalid attribute.");
-                    return false;
+                    return matchingMovies;
             }
-            if (found) {
-                System.out.println("Movie found: " + current.data);
-                return true;
+
+            if (comparisonResult == 0) {
+                matchingMovies.insert(currentMovie);
             }
             current = current.next;
         }
-        return false;
+        return matchingMovies;
+    }
+
+    public Node getHead() {
+        return head;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+    //include iterator, but CoPilot might be lying to me
+    @Override
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private Node current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public T next() {
+                T data = current.data;
+                current = current.next;
+                return data;
+            }
+        };
     }
 }

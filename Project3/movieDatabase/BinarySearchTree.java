@@ -35,44 +35,61 @@ public class BinarySearchTree<T extends Comparable<T>> {
         }
         return root;
     }
-    
-    public boolean searchByAttribute(Movie movie, String attribute) {
-        return searchRec(root, movie, attribute);
-    }
 
-    private boolean searchRec(Node root, Movie movie, String attribute) {
+    //public Movie searchByAttribute(Movie movie, String attribute)
+    public Movie searchByAttribute(String attribute, String query) {
+        //return searchRecAttribute(root, movie, attribute);
+        return searchByAttribute(root, attribute, query);
+    }
+    
+    //private Movie searchRecAttribute(Node root, Movie movie, String attribute)
+    private Movie searchRecAttribute(Node root, String attribute, String query) {
         if (root == null) {
             System.out.println("Reached a leaf node, no movie found.");
-            return false;
+            return null;
         }
         
         int comparisonResult = 0;
-        
+        Movie currentMovie = (Movie) root.data;
+
         switch(attribute.toLowerCase()){
             case "title":
-                comparisonResult = ((Movie) root.data).compareTo(movie);
+                //comparisonResult = ((Movie) root.data).compareTo(movie);
+                comparisonResult = currentMovie.getTitle().compareToIgnoreCase(query);
                 break;
             case "genre":
-                comparisonResult = ((Movie) root.data).compareByGenre(movie);
+                //comparisonResult = ((Movie) root.data).compareByGenre(movie);
+                comparisonResult = currentMovie.getGenre().compareToIgnoreCase(query);
                 break;
             case "director":
-                comparisonResult = ((Movie) root.data).compareByDirector(movie);
+                //comparisonResult = ((Movie) root.data).compareByDirector(movie);
+                comparisonResult = currentMovie.getDirector().compareToIgnoreCase(query);
                 break;
             case "year":
-                comparisonResult = ((Movie) root.data).compareByYear(movie);
+                //comparisonResult = ((Movie) root.data).compareByYear(movie);
+                try {
+                    int yearQuery = Integer.parseInt(query);
+                    comparisonResult = Integer.compare(currentMovie.getYear(), yearQuery);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid year format: " + query);
+                    return null;
+                }
                 break;
             default:
                 System.err.println("Invalid attribute.");
-                return false;
+                return null;
         }
 
 
         if (comparisonResult == 0) {
-            return true;
+            //return (Movie) root.data;
+            return currentMovie;
         } else if (comparisonResult > 0) {
-            return searchRec(root.left, movie, attribute);
+            //return searchRecAttribute(root.left, movie, attribute);
+            return searchRecAttribute(root.left, attribute, query);
         } else {
-            return searchRec(root.right, movie, attribute);
+            //return searchRecAttribute(root.right, movie, attribute);
+            return searchRecAttribute(root.right, attribute, query);
         }
     }
     

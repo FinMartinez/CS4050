@@ -7,9 +7,13 @@ class MainMenu {
 
     private Scanner scanner;
     private MovieDb movieDb;
-    private BinarySearchTree<Movie> movieTree;
-    private SinglyLinkedList<Movie> movieList;
     private ArrayList<Movie> movieArray;
+    private SinglyLinkedList<Movie> movieList;
+    private BinarySearchTree<Movie> movieTree;
+    //additional trees for different attributes
+    private BinarySearchTree<Movie> genreTree;
+    private BinarySearchTree<Movie> directorTree;
+    private BinarySearchTree<Movie> yearTree;
 
     // Manager password (no peeking!)
     private final String managerPassword = "password";
@@ -18,17 +22,20 @@ class MainMenu {
         this.scanner = new Scanner(System.in);
         this.movieDb = movieDb;
         this.movieArray = movieDb.getMovies();
-        this.movieTree = new BinarySearchTree<>();
         this.movieList = new SinglyLinkedList<>();
+        this.movieTree = new BinarySearchTree<>();
+        //additional trees for different attributes
+        this.genreTree = new BinarySearchTree<>();
+        this.directorTree = new BinarySearchTree<>();
+        this.yearTree = new BinarySearchTree<>();
 
         // Populate binary search tree
         for (Movie movie : movieArray){
             movieTree.insert(movie);
+            genreTree.insert(movie);
+            directorTree.insert(movie);
+            yearTree.insert(movie);
         }
-
-        // Print movies in sorted order (inorder traversal)
-        System.out.println("Movies in sorted order:");
-        movieTree.inOrder();
 
         // Populate singly linked list
         for (Movie movie : movieArray){
@@ -176,19 +183,13 @@ class MainMenu {
         System.out.println("1. Binary Search Tree");
         System.out.println("2. Singly Linked List");
         System.out.println("3. Array List");
-        System.out.println("NOTE: Binary search is only supported for title search.");
+        //System.out.println("NOTE: Binary search is only supported for title search.");
         int choice = getIntPut(1, 3);
         //boolean useBST = getBoolInput();
 
         switch(choice){
             case 1:
-            //may need alterations
-            if (!attribute.equals("title")){
-                System.err.println("Binary search is only supported for title search.");
-                return;
-            } else {
                 searchBST(attribute, query);
-            }
                 break;
             case 2:
                 searchList(attribute, query);
@@ -203,20 +204,39 @@ class MainMenu {
         }
 
     private void searchBST(String attribute, String query){
-        Movie searchMovie = createSearchMovie(attribute, query);
-
         //Start clock
         long startTime = System.currentTimeMillis();
+
+        //Movie searchMovie = createSearchMovie(attribute, query);
+        Movie foundMovie = null;
+
         // Execute search
-        boolean found = movieTree.searchByAttribute(searchMovie, attribute);
+        //Movie foundMovie = movieTree.searchByAttribute(searchMovie, attribute);
+        switch(attribute.toLowerCase()){
+            case "title":
+                foundMovie = movieTree.searchByAttribute(attribute, query);
+                break;
+            case "genre":
+                foundMovie = genreTree.searchByAttribute(attribute, query);
+                break;
+            case "director":
+                foundMovie = directorTree.searchByAttribute(attribute, query);
+                break;
+            case "year":
+                foundMovie = yearTree.searchByAttribute(attribute, query);
+                break;
+            default:
+                System.err.println("Invalid attribute.");
+                break;
+        }
         //Stop clock
         long endTime = System.currentTimeMillis();
 
         //Calculate time taken
         long elapsedTime = (endTime - startTime);
 
-        if (found){
-            System.out.println("Movie found: " + searchMovie);
+        if (foundMovie != null){
+            System.out.println("Movie found: " + foundMovie);
         } else {
             System.err.println("Movie not found.");
         }
@@ -230,15 +250,20 @@ class MainMenu {
         //Start clock
         long startTime = System.currentTimeMillis();
         // Execute search
-        boolean found = movieList.search(searchMovie, attribute);
+        SinglyLinkedList<Movie> foundMovie = movieList.searchListAttribute(searchMovie, attribute);
+
+        //Movie foundMovie = movieList.searchListAttribute(searchMovie, attribute);
         //Stop clock
         long endTime = System.currentTimeMillis();
 
         //Calculate time taken
-        long elapsedTime = (endTime - startTime) / 100_000_000;
+        long elapsedTime = (endTime - startTime);
 
-        if (found){
-            System.out.println("Movie found: " + searchMovie);
+        if (foundMovie != null && !foundMovie.isEmpty()){
+            System.out.println("Movie founds: ");
+            for (Movie movie : foundMovie){
+                System.out.println(movie);
+            }
         } else {
             System.err.println("Movie not found.");
         }
@@ -266,19 +291,36 @@ class MainMenu {
     }
 
     private Movie createSearchMovie(String attribute, String query){
+        Movie dummyMovie = new Movie("", "", "", 0);
+
         switch(attribute.toLowerCase()){
             case "title":
-                return new Movie(query, "", "", 0);
+                dummyMovie.setTitle(query.trim().toLowerCase());
+                //return new Movie(query, "", "", 0);
+                break;
             case "genre":
-                return new Movie("", query, "", 0);
+                dummyMovie.setGenre(query.trim().toLowerCase());
+                //return new Movie("", query, "", 0);
+                break;
             case "director":
-                return new Movie("", "", query, 0);
+                dummyMovie.setDirector(query);
+                //return new Movie("", "", query, 0);
+                break;
             case "year":
-                return new Movie("", "", "", Integer.parseInt(query));
+                try {
+                    dummyMovie.setYear(Integer.parseInt(query));
+                } catch (NumberFormatException e){ 
+                    System.err.println("Invalid year format.");
+                }
+                break;   
+                //return new Movie("", "", "", Integer.parseInt(query));
             default:
                 System.err.println("Invalid attribute.");
-                return null;
+                break;
+                //return null;
         }
+
+        return dummyMovie;
     }
 
     private void sortMovies(){

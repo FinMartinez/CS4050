@@ -35,11 +35,11 @@ class Movie implements Comparable<Movie> {
     }
 
     public int compareByGenre(Movie other){
-        return genre.compareTo(other.genre);
+        return this.genre.trim().compareTo(other.genre.trim().toLowerCase());
     }
 
     public int compareByDirector(Movie other){
-        return director.compareTo(other.director);
+        return this.director.trim().compareTo(other.director.trim().toLowerCase());
     }
 
     public int compareByYear(Movie other){
@@ -49,6 +49,20 @@ class Movie implements Comparable<Movie> {
     @Override
     public String toString(){
         return "Title: " + title + ", Genre: " + genre + ", Director: " + director + ", Year: " + year;
+    }
+
+    //Dummy movie methods
+    public void setTitle(String title){
+        this.title = title;
+    }
+    public void setGenre(String genre){
+        this.genre = genre;
+    }
+    public void setDirector(String director){
+        this.director = director;
+    }
+    public void setYear(int year){
+        this.year = year;
     }
 
 }

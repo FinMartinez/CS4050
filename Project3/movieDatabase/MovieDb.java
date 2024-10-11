@@ -52,6 +52,7 @@ class MovieDb {
                     String genre = values[1].trim();
                     String director = values[2].trim();
                     String yearStr = values[3].trim();
+
                     try {
                         int year = Integer.parseInt(yearStr);
                         if (!movieTitles.contains(title)){
