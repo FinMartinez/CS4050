@@ -44,9 +44,7 @@ class MovieDb {
                     isFirstLine = false;
                     continue;
                 }
-                //System.out.println("Reading line: " + line);
                 String[] values = parseCSVLine(line);
-                //System.out.println("Values: " + Arrays.toString(values));
                 if (values.length == 4){
                     String title = values[0].trim();
                     String genre = values[1].trim();

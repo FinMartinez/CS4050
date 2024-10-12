@@ -1,5 +1,8 @@
 package movieDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BinarySearchTree<T extends Comparable<T>> {
     
     private class Node {
@@ -36,61 +39,52 @@ public class BinarySearchTree<T extends Comparable<T>> {
         return root;
     }
 
-    //public Movie searchByAttribute(Movie movie, String attribute)
-    public Movie searchByAttribute(String attribute, String query) {
-        //return searchRecAttribute(root, movie, attribute);
-        return searchByAttribute(root, attribute, query);
+    public List<Movie> searchByAttribute(String attribute, String query) {
+        List<Movie> searchResults = new ArrayList<>();
+        searchRecAttribute(root, attribute, query, searchResults);
+        return searchResults;
     }
     
-    //private Movie searchRecAttribute(Node root, Movie movie, String attribute)
-    private Movie searchRecAttribute(Node root, String attribute, String query) {
+    private void searchRecAttribute(Node root, String attribute, String query, List<Movie> searchResults) {
         if (root == null) {
-            System.out.println("Reached a leaf node, no movie found.");
-            return null;
+            //System.out.println("Reached a leaf node, no movie found.");
+            return;
         }
         
-        int comparisonResult = 0;
         Movie currentMovie = (Movie) root.data;
+        boolean match = false;
 
         switch(attribute.toLowerCase()){
             case "title":
-                //comparisonResult = ((Movie) root.data).compareTo(movie);
-                comparisonResult = currentMovie.getTitle().compareToIgnoreCase(query);
+                match = currentMovie.getTitle().equalsIgnoreCase(query);
                 break;
             case "genre":
-                //comparisonResult = ((Movie) root.data).compareByGenre(movie);
-                comparisonResult = currentMovie.getGenre().compareToIgnoreCase(query);
+                match = currentMovie.getGenre().equalsIgnoreCase(query);
                 break;
             case "director":
-                //comparisonResult = ((Movie) root.data).compareByDirector(movie);
-                comparisonResult = currentMovie.getDirector().compareToIgnoreCase(query);
+                match = currentMovie.getDirector().equalsIgnoreCase(query);
                 break;
             case "year":
-                //comparisonResult = ((Movie) root.data).compareByYear(movie);
                 try {
                     int yearQuery = Integer.parseInt(query);
-                    comparisonResult = Integer.compare(currentMovie.getYear(), yearQuery);
+                    match = currentMovie.getYear() == yearQuery;
                 } catch (NumberFormatException e) {
                     System.err.println("Invalid year format: " + query);
-                    return null;
+                    return;
                 }
                 break;
             default:
                 System.err.println("Invalid attribute.");
-                return null;
+                return;
         }
 
-
-        if (comparisonResult == 0) {
-            //return (Movie) root.data;
-            return currentMovie;
-        } else if (comparisonResult > 0) {
-            //return searchRecAttribute(root.left, movie, attribute);
-            return searchRecAttribute(root.left, attribute, query);
-        } else {
-            //return searchRecAttribute(root.right, movie, attribute);
-            return searchRecAttribute(root.right, attribute, query);
+        if (match) {
+            searchResults.add(currentMovie);
         }
+
+        searchRecAttribute(root.left, attribute, query, searchResults);
+        searchRecAttribute(root.right, attribute, query, searchResults);
+
     }
     
     public void inOrder() {

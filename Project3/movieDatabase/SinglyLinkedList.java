@@ -58,7 +58,6 @@ public class SinglyLinkedList<T extends Movie> implements Iterable<T> {
                     break;
                 case "year":
                     comparisonResult = Integer.compare(currentMovie.getYear(), searchMovie.getYear());
-                    //comparisonResult = currentMovie.compareByYear(searchMovie); 
                     break;
                 default:
                     System.out.println("Invalid attribute.");

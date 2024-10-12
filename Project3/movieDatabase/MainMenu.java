@@ -178,14 +178,11 @@ class MainMenu {
         System.out.println("Enter a search query: ");
         String query = getStringInput();
 
-        //may need to toss in a switch statement when I add in SingleLinkedList
         System.out.println("Please select a data structure to use for search: ");
         System.out.println("1. Binary Search Tree");
         System.out.println("2. Singly Linked List");
         System.out.println("3. Array List");
-        //System.out.println("NOTE: Binary search is only supported for title search.");
         int choice = getIntPut(1, 3);
-        //boolean useBST = getBoolInput();
 
         switch(choice){
             case 1:
@@ -207,11 +204,8 @@ class MainMenu {
         //Start clock
         long startTime = System.currentTimeMillis();
 
-        //Movie searchMovie = createSearchMovie(attribute, query);
-        Movie foundMovie = null;
-
+        List<Movie> foundMovie = null;
         // Execute search
-        //Movie foundMovie = movieTree.searchByAttribute(searchMovie, attribute);
         switch(attribute.toLowerCase()){
             case "title":
                 foundMovie = movieTree.searchByAttribute(attribute, query);
@@ -235,8 +229,11 @@ class MainMenu {
         //Calculate time taken
         long elapsedTime = (endTime - startTime);
 
-        if (foundMovie != null){
-            System.out.println("Movie found: " + foundMovie);
+        if (foundMovie != null && !foundMovie.isEmpty()){
+            System.out.println("Movie(s) found: ");
+            for (Movie movie : foundMovie){
+                System.out.println(movie);
+            }
         } else {
             System.err.println("Movie not found.");
         }
@@ -252,7 +249,6 @@ class MainMenu {
         // Execute search
         SinglyLinkedList<Movie> foundMovie = movieList.searchListAttribute(searchMovie, attribute);
 
-        //Movie foundMovie = movieList.searchListAttribute(searchMovie, attribute);
         //Stop clock
         long endTime = System.currentTimeMillis();
 
@@ -260,7 +256,7 @@ class MainMenu {
         long elapsedTime = (endTime - startTime);
 
         if (foundMovie != null && !foundMovie.isEmpty()){
-            System.out.println("Movie founds: ");
+            System.out.println("Movie(s) found: ");
             for (Movie movie : foundMovie){
                 System.out.println(movie);
             }
@@ -296,15 +292,12 @@ class MainMenu {
         switch(attribute.toLowerCase()){
             case "title":
                 dummyMovie.setTitle(query.trim().toLowerCase());
-                //return new Movie(query, "", "", 0);
                 break;
             case "genre":
                 dummyMovie.setGenre(query.trim().toLowerCase());
-                //return new Movie("", query, "", 0);
                 break;
             case "director":
                 dummyMovie.setDirector(query);
-                //return new Movie("", "", query, 0);
                 break;
             case "year":
                 try {
@@ -313,11 +306,9 @@ class MainMenu {
                     System.err.println("Invalid year format.");
                 }
                 break;   
-                //return new Movie("", "", "", Integer.parseInt(query));
             default:
                 System.err.println("Invalid attribute.");
                 break;
-                //return null;
         }
 
         return dummyMovie;
@@ -333,7 +324,6 @@ class MainMenu {
         System.out.println("Sort ascending? (true/false)");
         boolean ascending = getBoolInput();
 
-        //ArrayList<Movie> movieList = movieDb.getMovies();
         ArrayList<Movie> sortedMovies = MovieSort.sortMovies(movieArray, attribute, sortType, ascending);
         
         //Display sorted list
