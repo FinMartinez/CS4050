@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>22</x><y>47</y><w>189</w><h>171</h></coordinates><panel_attributes>&lt;&lt;Driver&gt;&gt;
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><element><id>UMLClass</id><coordinates><x>320</x><y>59</y><w>168</w><h>152</h></coordinates><panel_attributes>&lt;&lt;Driver&gt;&gt;
 Package::movieDatabase
 --
 movieDb(MovieDb)
@@ -8,7 +8,7 @@ displayMenu(MainMenu(movieDb)
 --
 Responsibilities
 -- movieDb.loadFromCSVFile(csv file)
--- displayMenu.start()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>22</x><y>263</y><w>189</w><h>387</h></coordinates><panel_attributes>&lt;&lt;MainMenu&gt;&gt;
+-- displayMenu.start()</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>251</y><w>168</w><h>360</h></coordinates><panel_attributes>&lt;&lt;MainMenu&gt;&gt;
 Package::movieDatabase
 --
 -Scanner: scanner
@@ -22,6 +22,10 @@ Package::movieDatabase
 -addMove():void
 -removeMovie():void
 -searchMovie():void
+-searchBST():void
+-searchList():void
+-arraySearch(String, String):void
+-createSearchMovie(String, String):Movie
 -sortMovies():void
 -getIntPut(int min, int max): int
 -getStringInput(): String
@@ -34,7 +38,7 @@ Responsibilities
 -- movieDb.getMovies()
 -- movieDb.removeMovie(title)
 -- MovieDb.searchMovies(params)
--- MovieDb.sortMovies(params)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>13</x><y>722</y><w>189</w><h>207</h></coordinates><panel_attributes>&lt;&lt;Movie&gt;&gt;
+-- MovieDb.sortMovies(params)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>312</x><y>659</y><w>168</w><h>272</h></coordinates><panel_attributes>&lt;&lt;Movie&gt;&gt;
 Package::movieDatabase
 {Constructor class}
 --
@@ -48,22 +52,34 @@ Package::movieDatabase
 +getGenre:String
 +getDirector:String
 +getYear:int
++compareTo(Movie):int (@Override)
++compareByGenre(Movie):int
++compareByDirector(Movie):int
++compareByYear(Movie):int
 +toString:String (@Override)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>292</x><y>344</y><w>189</w><h>198</h></coordinates><panel_attributes>&lt;&lt;MovieDb&gt;&gt;
++setTitle(String):void
++setGenre(String):void
++setDirector(String):void
++setYear(int):void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>560</x><y>323</y><w>168</w><h>216</h></coordinates><panel_attributes>&lt;&lt;MovieDb&gt;&gt;
 Package::movieDatabase
 --
--movies: ArrayList(movies)
+-movieArray: ArrayList(movies)
 -movieTitles: Set(String)
 +MovieDb()
 +MovieDb(ArrayList(Movie))
++clearMovies():void
 --
++getMovies():ArrayList&lt;Movie&gt;
 +loadFromCSV(filepath): void
 -parseCSVLine(String): String []
 +addMovie(Movie): void
 +removeMovie(Movie):void
++toBinarySearchTree():BinarySearchTree&lt;Movie&gt;
++toSinglyLinkedList():SinglyLinkedList&lt;Movie&gt;
 --
 clearMovies: void
-verifyNoDuplicates: void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>679</x><y>11</y><w>414</w><h>288</h></coordinates><panel_attributes>&lt;&lt;MovieSearch&gt;&gt;
+verifyNoDuplicates: void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>904</x><y>27</y><w>368</w><h>256</h></coordinates><panel_attributes>&lt;&lt;MovieSearch&gt;&gt;
 Package::movieDatabase
 --
 movieDb(MovieDb)
@@ -84,7 +100,7 @@ movieList(movieDb.getMovies)
 -binarySearchByYear)ArrayList, int): ArrayList
 --
 Responsibilities
---MovieSort.quickSort(int, ArrayList, ArrayList, ArrayList)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>670</x><y>488</y><w>324</w><h>180</h></coordinates><panel_attributes>&lt;&lt;MovieSort&gt;&gt;
+--MovieSort.quickSort(int, ArrayList, ArrayList, ArrayList)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>896</x><y>451</y><w>288</w><h>144</h></coordinates><panel_attributes>&lt;&lt;MovieSort&gt;&gt;
 Package::movieDatabase
 --
 movieDb(MovieDb)
@@ -96,4 +112,31 @@ movieList(movieDb.getMovies)
 -merge(ArrayList, int, int, int, Comparator): void
 -selectionSort(ArrayList, Comparator): void
 -quickSort(int, int, Comparator, ArrayList): void
--partition(int, int, Comparator, ArrayList): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>103</x><y>209</y><w>27</w><h>72</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>193</x><y>533</y><w>207</w><h>234</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;240;210;240;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>202</x><y>272</y><w>189</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>190;80;190;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>778</x><y>290</y><w>27</w><h>216</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;220;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>290</y><w>252</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;10;260;80;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>380</y><w>252</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;120;260;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>202</x><y>20</y><w>495</w><h>306</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;320;270;320;270;10;530;10</additional_attributes></element><element><id>Relation</id><coordinates><x>202</x><y>569</y><w>486</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;520;10</additional_attributes></element></diagram>
+-partition(int, int, Comparator, ArrayList): int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>392</x><y>203</y><w>24</w><h>64</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>531</y><w>184</w><h>168</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;190;210;190;210;10</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>259</y><w>168</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>190;80;190;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>992</x><y>275</y><w>24</w><h>192</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;220;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>275</y><w>224</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;10;260;80;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>355</y><w>224</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>260;120;260;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>35</y><w>440</w><h>272</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;320;270;320;270;10;530;10</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>523</y><w>432</w><h>56</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;80;10;80;50;520;50</additional_attributes></element><element><id>UMLClass</id><coordinates><x>672</x><y>659</y><w>168</w><h>152</h></coordinates><panel_attributes>&lt;&lt;BinarySearchTree&gt;&gt;
+Package::movieDatabase
+--
+-Node
++BinarySearchTree
+--
+-root(Node)
++insert(data):void
+-insertRec(Node,data):Node
++searchByAttribute(String, String): List
+-searchRecAttribute(Node, String, String, List): void
++inOrder: void
+-InOrder(Node): void
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>928</x><y>683</y><w>168</w><h>152</h></coordinates><panel_attributes>&lt;&lt;SinglyLinkedList&gt;&gt;
+Package::movieDatabase
+--
+-Node
++SinglyLinkedList
+--
+-head:Node
++insert(data):void
++searchListAttribute(Movie, String): SinglyLinkedList
++getHead:Node
++isEmpty:boolean
++iterator:Iterator
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>672</x><y>595</y><w>80</w><h>24</h></coordinates><panel_attributes>/Comparable/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1016</x><y>611</y><w>80</w><h>24</h></coordinates><panel_attributes>/Iterable/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>704</x><y>611</y><w>24</w><h>64</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>571</y><w>208</w><h>112</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;110;10;110;120;240;120</additional_attributes></element><element><id>Relation</id><coordinates><x>1048</x><y>627</y><w>24</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;70</additional_attributes></element><element><id>Relation</id><coordinates><x>472</x><y>819</y><w>472</w><h>24</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;570;10</additional_attributes></element><element><id>Relation</id><coordinates><x>440</x><y>603</y><w>248</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>290;10;100;10;100;70;10;70</additional_attributes></element></diagram>
