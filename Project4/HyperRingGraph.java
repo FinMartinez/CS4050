@@ -23,8 +23,30 @@ public class HyperRingGraph {
         }
     }
 
+    public void displayAdjencenyMatrix(){
+        int [][] matrix = new int[nodes][nodes];
+        
+        for (int i=0; i<nodes; i++) {
+            for(int neighbor : adjacencyList.get(i)) {
+                matrix[i][neighbor] = 1;
+            }
+        }
+        
+        System.out.println("Adjacency Matrix:");
+        System.out.println();
+        for (int i=0; i<nodes; i++) {
+            for (int j=0; j<nodes; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("****************************************************");
+    }
+
     public void displayGraph() {
         System.out.println("HyperRing Graph Connections:");
+        System.out.println();
         for (Map.Entry<Integer, Set<Integer>> entry : adjacencyList.entrySet()) {
             System.out.print(entry.getKey() + " -> ");
             for (Integer neighbor : entry.getValue()) {
@@ -88,26 +110,39 @@ public class HyperRingGraph {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter the number of nodes in the HyperRing Graph:");
-        int nodes = scanner.nextInt();
+        while(true) {
+            System.out.println("Enter the number of nodes in the HyperRing Graph:");
+            int nodes = scanner.nextInt();
+            System.out.println("****************************************************");
 
-        HyperRingGraph hyperRingGraph = new HyperRingGraph(nodes);
-        hyperRingGraph.displayGraph();
+            HyperRingGraph hyperRingGraph = new HyperRingGraph(nodes);
+            hyperRingGraph.displayAdjencenyMatrix();
+            hyperRingGraph.displayGraph();
 
-        System.out.println("Choose traversal type (DFS or BFS): ");
-        String traversalType = scanner.next().toUpperCase();
+            System.out.println("****************************************************");
+            System.out.println("Choose traversal type (DFS or BFS): ");
+            String traversalType = scanner.next().toUpperCase();
 
-        System.out.println("Enter the start node: ");
-        int startNode = scanner.nextInt();
+            System.out.println("Enter the start node: ");
+            int startNode = scanner.nextInt();
 
-        if (traversalType.equals("DFS")) {
-            hyperRingGraph.dfs(startNode);
-        } else if (traversalType.equals("BFS")) {
-           hyperRingGraph.bfs(startNode);
-        } else {
-            System.out.println("Invalid choice. Please enter either DFS or BFS.");
+            if (traversalType.equals("DFS")) {
+                hyperRingGraph.dfs(startNode);
+            } else if (traversalType.equals("BFS")) {
+               hyperRingGraph.bfs(startNode);
+            } else {
+                System.out.println("Invalid choice. Please enter either DFS or BFS.");
+            }
+
+            System.out.println("****************************************************");
+            System.out.println("Do you want to continue? (Y/N)");
+            String continueChoice = scanner.next().toUpperCase();
+
+            if (!continueChoice.equals("Y")) {
+                System.out.println("Exiting...");
+                break;
+            }
         }
-
         scanner.close();
     }
 }
