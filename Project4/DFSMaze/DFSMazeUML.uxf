@@ -1,0 +1,37 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>320</x><y>30</y><w>210</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Cell&gt;&gt;
+Package::DFSMaze
+{Constructor}
+--
+x: int
+y: int
+visited: boolean
+walls: boolean []
+--
+Cell(int, int)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>20</x><y>30</y><w>210</w><h>210</h></coordinates><panel_attributes>&lt;&lt;DFSMaze&gt;&gt;
+Package::DFSMaze
+{driver}
+--
+scanner: Scanner
+width: int
+height: int
+maze: MazeGenerator(width, height)
+choice: String
+dimension: int
+isValid: boolean
+--
++main(String [] args): void
+-getValidDimension(Scanner, String): int
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>270</y><w>210</w><h>190</h></coordinates><panel_attributes>&lt;&lt;MazeGenerator&gt;&gt;
+Package::DFSMaze
+--
+-width: int
+-height: int
+-grid: Cell [] []
+-stack: Stack&lt;Cell&gt;
+--
++MazeGenerator(width, height)
++generateMaze: void
+-getRandomUnvisitedNeighbor(Cell): Cell
+-removeWalls(Cell, Cell): void
++printMaze: void</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>80</x><y>230</y><w>260</w><h>80</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>240;60;10;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>170</y><w>30</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element></diagram>

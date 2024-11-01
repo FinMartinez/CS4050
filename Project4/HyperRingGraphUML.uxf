@@ -1,0 +1,52 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>40</x><y>100</y><w>210</w><h>160</h></coordinates><panel_attributes>&lt;&lt;Main&gt;&gt;
+{Public, void}
+--
+String[] args
+--
+Scanner: scanner
+nodes: int
+hyperRingGraph: HyperRingGraph(nodes)
+traversalType: String
+startNode: int
+continueChoice: Sring
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>380</y><w>210</w><h>100</h></coordinates><panel_attributes>&lt;&lt;HyperRingGraph&gt;&gt;
+{Constructor}
+--
+nodes: int
+--
+nodes: object
+adjacency: HashMap
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>380</y><w>210</w><h>70</h></coordinates><panel_attributes>&lt;&lt;buildGraph&gt;&gt;
+{private, void}
+--
+neighbor: int
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>100</y><w>210</w><h>60</h></coordinates><panel_attributes>&lt;&lt;displayAdjacencyMatrix&gt;&gt;
+{public, void]
+--
+matrix: int [] []
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>420</x><y>180</y><w>210</w><h>50</h></coordinates><panel_attributes>&lt;&lt;displayGraph&gt;&gt;
+{public, void}
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>90</y><w>210</w><h>80</h></coordinates><panel_attributes>&lt;&lt;dfs&gt;&gt;
+{public, void}
+--
+startNode: int
+--
+visited: boolean []
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>200</y><w>210</w><h>100</h></coordinates><panel_attributes>&lt;&lt;dfsHelper&gt;&gt;
+{private, void}
+--
+node: int
+visited: boolean []
+--
+visited[node]: boolean
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>330</y><w>210</w><h>130</h></coordinates><panel_attributes>&lt;&lt;bfs&gt;&gt;
+{public, void}
+--
+startNode: int
+--
+visited: boolean []
+queue: Queue&lt;Integer&gt;
+visited[node]: boolean
+node: int</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>130</x><y>250</y><w>30</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>390</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>100</y><w>110</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>90;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>190</y><w>200</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>180;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>150</x><y>120</y><w>200</w><h>280</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;260;10;170;130;170;130;10;180;10</additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>220</y><w>280</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;160;10;90;260;90;260;10</additional_attributes></element><element><id>Relation</id><coordinates><x>240</x><y>100</y><w>500</w><h>160</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>480;10;420;10;420;140;10;140</additional_attributes></element><element><id>Relation</id><coordinates><x>200</x><y>250</y><w>540</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;130;10;80;300;80;300;10;520;10</additional_attributes></element><element><id>Relation</id><coordinates><x>810</x><y>160</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>250</y><w>520</w><h>120</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>500;100;10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>220</x><y>350</y><w>520</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;30;10;10;500;10</additional_attributes></element></diagram>
