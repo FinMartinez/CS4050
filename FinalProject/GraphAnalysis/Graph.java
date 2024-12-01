@@ -1,4 +1,4 @@
-package FinalProject;
+package GraphAnalysis;
 
 import java.util.*;
 
@@ -8,11 +8,11 @@ public class Graph {
     private Map<Integer, Set<Integer>> adjacencyList; // Adjacency list representation of the graph
 
     //Constructor
-    public class Graph(int nodes) {
+    public Graph(int nodes) {
         this.nodes = nodes;
         adjacencyMatrix = new int[nodes][nodes];
         adjacencyList = new HashMap<>();
-        for (into i = 0; i < nodes: i++) {
+        for (int i = 0; i < nodes; i++) {
             adjacencyList.put(i, new HashSet<>());
         }
     }
@@ -24,7 +24,7 @@ public class Graph {
         adjacencyList.get(from).add(to);
         adjacencyList.get(to).add(from);
     }
-    public void display() {
+    public void displayAdjencenyMatrix() {
         // Print the adjacency matrix
         System.out.println("Adjacency Matrix:");
         for (int i = 0; i < nodes; i++) {
@@ -49,7 +49,7 @@ public class Graph {
 
     public void runDijkstra(int source) {
         // Implement Dijkstra's algorithm
-        int[] distances = new into[nodes];
+        int[] distances = new int[nodes];
         boolean[] visited = new boolean[nodes];
         Arrays.fill(distances, Integer.MAX_VALUE);
         distances[source] = 0;
@@ -102,7 +102,7 @@ public class Graph {
 
     public void bfs(int startNode) {
         //BFS Traversal
-        if (startNode < 0 || stateNode <= nodes) {
+        if (startNode < 0 || startNode <= nodes) {
             System.out.println("Invalid start node. Please enter a valid node between 0 and " + (nodes - 1));
             return;
         }
@@ -115,7 +115,7 @@ public class Graph {
         System.out.println("BFS Traversal");
         while (!queue.isEmpty()) {
             int current = queue.poll();
-            System.out.print(node + " ");
+            System.out.print(current + " ");
             for (int neighbor : adjacencyList.get(current)) {
                 if (!visited[neighbor]) {
                     visited[neighbor] = true;
@@ -155,7 +155,7 @@ public class Graph {
         System.out.println("Minimum Spanning Tree:");
         for (int i = 1; i < nodes; i++) {
             if (parent[i] != -1) {
-                System.out.println(paren[i] + " - " + i + " (Wieght: " + adjacencyMatrix[parent[i]][i] + ")");
+                System.out.println(parent[i] + " - " + i + " (Wieght: " + adjacencyMatrix[parent[i]][i] + ")");
             }
         }
     }

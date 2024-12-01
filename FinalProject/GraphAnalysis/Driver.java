@@ -1,5 +1,5 @@
 
-package FinalProject;
+package GraphAnalysis;
 
 import java.util.Scanner;
 
@@ -42,18 +42,28 @@ public class Driver {
             switch (choice) {
                 case 1:
                     // Load Graph Data
-                    System.out.println("Enter file name or provide manual input: ");
-                    String input = scanner.nextLine();
-                    graph = GraphLoader.loadGraph(input); //Call helper class to load graph
+                    System.out.println("Chose input mode (file/manual): ");
+                    String inputMode = scanner.nextLine().toLowerCase();
+                    
+                    if (inputMode.equals("file")) {
+                        System.out.println("Enter the file name: ");
+                        String fileName = scanner.nextLine();
+                        graph = GraphLoader.loadGraphFromFile(fileName);
+                    } else if (inputMode.equals("manual")) {
+                        graph = GraphLoader.loadGraphManually(scanner);
+                    } else {
+                        System.out.println("Invalid input mode. Please enter a valid input mode.");
+                    }
                     System.out.println("Graph data loaded successfully.");
                     break;
                 case 2:
-                    // Display graph
+                    // Display adjacency matrix and list
                     if (graph != null) {
-                        graph.displayGraph(); //Implement a method to display the adjacency matrix
+                        graph.displayAdjencenyMatrix();
                     } else {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
+                    break;
                 case 3:
                     // Run Dijkstra's Algorithm
                     if (graph != null) {
@@ -90,11 +100,22 @@ public class Driver {
                     // Test Case
                     System.out.println("Running test case...");
 
-                    Graph graph = new Graph(5);
+                    Graph testGraph = new Graph(5);
                     
-                    graph = GraphLoader.loadGraph("test.txt");
-                    graph.displayGraph();
-                    graph.runDijkstra(0);
+                    //Add edges
+                    testGraph.addEdge(0, 1, 1);
+                    testGraph.addEdge(0, 2, 1);
+                    testGraph.addEdge(1, 3, 1);
+                    testGraph.addEdge(2, 4, 1);
+
+                    //testGraph = GraphLoader.loadGraph("test.txt");
+                    testGraph.displayAdjencenyMatrix();
+                    testGraph.displayAdjencenyList();
+                    //testGraph.runDijkstra(0);
+                    //testGraph.findMST();
+                    //testGraph.dfs(0);
+                    //testGraph.bfs(0);
+                    //testGraph.connectivityAnalysis();
                     break;
                 default:
                     System.out.println("Invalid choice. Please enter a valid choice.");
