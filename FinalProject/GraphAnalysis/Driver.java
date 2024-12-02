@@ -24,8 +24,8 @@ public class Driver {
             System.out.println("1. Load Graph Data"); //Manual or by file?
             System.out.println("2. Display Graph Data");
             System.out.println("3. Run Dijkstra's Algorithm");
-            /*
-             * System.out.println("4. Find Minimum Spanning Tree (MST)");
+            System.out.println("4. Find Minimum Spanning Tree (MST)");
+            /* 
              * System.out.println("5. Connectivity Analysis (Articulation Points, Bridges)");
              */
             System.out.println("6. Exit");
@@ -60,6 +60,7 @@ public class Driver {
                     // Display adjacency matrix and list
                     if (graph != null) {
                         graph.displayAdjencenyMatrix();
+                        graph.displayAdjencenyList();
                     } else {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
@@ -74,7 +75,6 @@ public class Driver {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
                     break;
-                /*
                 case 4:
                     // Find MST
                     if (graph != null) {
@@ -83,6 +83,7 @@ public class Driver {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
                     break;
+                /*
                 case 5:
                     // Connectivity Analysis
                     if (graph != null) {
@@ -100,19 +101,22 @@ public class Driver {
                     // Test Case
                     System.out.println("Running test case...");
 
-                    Graph testGraph = new Graph(5);
+                    Graph testGraph = new Graph(6);
                     
                     //Add edges
-                    testGraph.addEdge(0, 1, 1);
-                    testGraph.addEdge(0, 2, 1);
-                    testGraph.addEdge(1, 3, 1);
+                    testGraph.addEdge(0, 1, 4);
+                    testGraph.addEdge(0, 2, 3);
+                    testGraph.addEdge(1, 2, 2);
+                    testGraph.addEdge(1, 3, 5);
                     testGraph.addEdge(2, 4, 1);
+                    testGraph.addEdge(3, 4, 2);
+                    testGraph.addEdge(4, 5, 6);
 
                     //testGraph = GraphLoader.loadGraph("test.txt");
                     testGraph.displayAdjencenyMatrix();
                     testGraph.displayAdjencenyList();
-                    //testGraph.runDijkstra(0);
-                    //testGraph.findMST();
+                    testGraph.runDijkstra(0);
+                    testGraph.findMST();
                     //testGraph.dfs(0);
                     //testGraph.bfs(0);
                     //testGraph.connectivityAnalysis();

@@ -22,7 +22,8 @@ public class GraphLoader {
             return graph;
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + fileName);
+            System.err.println("File not found: " + fileName);
+            System.err.println("Ensure the file is in the correct directory: " + System.getProperty("user.dir"));
         } catch (Exception e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
@@ -36,11 +37,14 @@ public class GraphLoader {
         Graph graph = new Graph(nodes);
 
         // Get the number of edges
-        System.out.println("Enter edges in the format: 'from', 'to', 'weight' (Enter -1 to stop): ");
-        while (true) {
+        System.out.println("Enter the number of edges for the graph: ");
+        int edges = scanner.nextInt();
+
+        // Get the input edges
+        System.out.println("Enter edges in the format: 'from', 'to', 'weight'... ");
+        for (int i = 0; i < edges; i++) {
             System.out.print("Enter 'from' edge: ");
             int from = scanner.nextInt();
-            if (from == -1) break; // Stop condition
 
             System.out.print("Enter 'to' edge: ");
             int to = scanner.nextInt();
