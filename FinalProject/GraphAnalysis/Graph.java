@@ -160,8 +160,25 @@ public class Graph {
         }
     }
 
-    public void analyzeConnectivity() {
-        // Implement articulation points and bridges
+    /*
+     * Cost analyses
+     */
+
+    //Dijsktra cost implemented in @runDijkstra
+
+    //BFS cost
+    public int bfsCost(int source, int target){
+
+    }
+
+    //DFS cost
+    public int dfsCost(int source, int target){
+
+    }
+
+    //MST total cost
+    public int findMSTCost(){
+        
     }
 }
 

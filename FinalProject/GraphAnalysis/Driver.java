@@ -26,7 +26,7 @@ public class Driver {
             System.out.println("3. Run Dijkstra's Algorithm");
             System.out.println("4. Find Minimum Spanning Tree (MST)");
             /* 
-             * System.out.println("5. Connectivity Analysis (Articulation Points, Bridges)");
+             * System.out.println("5. Search Recommendation");
              */
             System.out.println("6. Exit");
 
@@ -85,7 +85,7 @@ public class Driver {
                     break;
                 /*
                 case 5:
-                    // Connectivity Analysis
+                    // Search Recommenation
                     if (graph != null) {
                         graph.connectivityAnalysis(); // Method for articulation points and bridges
                     } else {
@@ -120,6 +120,24 @@ public class Driver {
                     //testGraph.dfs(0);
                     //testGraph.bfs(0);
                     //testGraph.connectivityAnalysis();
+                    break;
+                case 8:
+                    //AI Analysis Test Case
+                    System.out.println("Running AI Analysis...");
+
+                    //Load graph
+                    Graph aiGraph = new Graph(6);
+                    aiGraph.addEdge(0, 1, 4);
+                    aiGraph.addEdge(0, 2, 3);
+                    aiGraph.addEdge(1, 2, 2);
+                    aiGraph.addEdge(1, 3, 5);
+                    aiGraph.addEdge(2, 4, 1);
+                    aiGraph.addEdge(3, 4, 2);
+                    aiGraph.addEdge(4, 5, 6);
+
+                    //Creat AIAnalyzer
+                    AIAnalyzer analyzer = new AIAnalyzer(aiGraph, 0, 5);
+                    analyzer.analyze();
                     break;
                 default:
                     System.out.println("Invalid choice. Please enter a valid choice.");
