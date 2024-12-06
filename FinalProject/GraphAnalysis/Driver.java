@@ -98,8 +98,14 @@ public class Driver {
                     System.out.println("Exiting the program. Goodbye!");
                     break;
                 case 7:
-                    // Test Case
-                    System.out.println("Running test case...");
+                    // Test Cases
+                    System.out.println("Test case 1: Small Directed Graph:");
+                    Graph testGraph1 = new Graph(4);
+                    testGraph1.addEdge(0, 1, 4);
+
+
+
+
 
                     Graph testGraph = new Graph(6);
                     
@@ -117,9 +123,8 @@ public class Driver {
                     testGraph.displayAdjencenyList();
                     testGraph.runDijkstra(0);
                     testGraph.findMST();
-                    //testGraph.dfs(0);
-                    //testGraph.bfs(0);
-                    //testGraph.connectivityAnalysis();
+                    testGraph.dfs(0);
+                    testGraph.bfs(0);
                     break;
                 case 8:
                     //AI Analysis Test Case

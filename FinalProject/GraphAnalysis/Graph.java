@@ -47,7 +47,7 @@ public class Graph {
         }
     }
 
-    public void runDijkstra(int source) {
+    public int runDijkstra(int source) {
         // Implement Dijkstra's algorithm
         int[] distances = new int[nodes];
         boolean[] visited = new boolean[nodes];
@@ -72,10 +72,20 @@ public class Graph {
                 }
             }
 
+        //Calculate and return the total cost of the shortest paths
+        int totalCost = 0;
+        for (int i = 0; i < nodes; i++) {
+            if (distances[i] != Integer.MAX_VALUE) {
+                totalCost += distances[i];
+            }
+        }
+
         System.out.println("Shortest distances from source node " + source + ":");
         for (int i = 0; i < distances.length; i++) {
             System.out.println("Node " + i + ": " + distances[i]);
         }
+
+        return totalCost;
     }
 
     public void dfs(int startNode) {
@@ -168,17 +178,87 @@ public class Graph {
 
     //BFS cost
     public int bfsCost(int source, int target){
+        boolean[] visited = new boolean[nodes];
+        int[] distances = new int[nodes];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[source] = 0;
 
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(source);
+
+        while(!queue.isEmpty()){
+            int current = queue.poll();
+
+            for(int neighbor : adjacencyList.get(current)){
+                if(!visited[neighbor]){
+                    visited[neighbor] = true;
+                    distances[neighbor] = distances[current] + 1;
+                    queue.add(neighbor);
+                }
+            }
+        }
+
+        return distances[target];
     }
 
-    //DFS cost
+    //DFS cost (estimate)
     public int dfsCost(int source, int target){
+        boolean[] visited = new boolean[nodes];
+        int[] distances = new int[nodes];
+        Arrays.fill(distances, Integer.MAX_VALUE);
+        distances[source] = 0;
 
+        dfsCostHelper(source, visited, distances);
+        return distances[target];
+    }
+
+    private void dfsCostHelper(int current, boolean[] visited, int[] distances){
+        visited[current] = true;
+
+        for(int neighbor : adjacencyList.get(current)){
+            if(!visited[neighbor] && distances[neighbor] > distances[current] + 1){
+                distances[neighbor] = distances[current] + 1;
+                dfsCostHelper(neighbor, visited, distances);
+            }
+        }
     }
 
     //MST total cost
     public int findMSTCost(){
+        int totalCost = 0;
+        boolean[] visited = new boolean[nodes];
+        int[] key = new int[nodes];
+        int[] parent = new int[nodes];
+        Arrays.fill(key, Integer.MAX_VALUE);
+        Arrays.fill(parent, -1);
+
+        key[0] = 0;
+        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.comparingInt(node -> key[node]));
+        pq.add(0);
+
+        while(!pq.isEmpty()){
+            int current = pq.poll();
+            visited[current] = true;
+
+            for(int neighbor : adjacencyList.get(current)){
+                int weight = adjacencyMatrix[current][neighbor];
+                if(!visited[neighbor] && weight < key[neighbor]){
+                    key[neighbor] = weight;
+                    parent[neighbor] = current;
+                    pq.add(neighbor);
+                }
+            }
+        }
+
+        //Calculate total cost of MST
+        for(int i = 1; i < nodes; i++){
+            if(parent[i] != -1){
+                totalCost += adjacencyMatrix[parent[i]][i];
+            }
+        }
         
+    return totalCost;
     }
+    
 }
 

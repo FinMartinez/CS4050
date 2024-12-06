@@ -31,7 +31,7 @@ public class AIAnalyzer {
         startTime = System.nanoTime();
         int bfsCost = runBFS();
         endTime = System.nanoTime();
-        results.put("BFS", new Result(bfsCost, (endTime - startTime)))
+        results.put("BFS", new Result(bfsCost, (endTime - startTime)));
         
         //Run DFS
         System.out.println("Running MST...");
