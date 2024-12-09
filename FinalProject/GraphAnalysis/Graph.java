@@ -112,7 +112,7 @@ public class Graph {
 
     public void bfs(int startNode) {
         //BFS Traversal
-        if (startNode < 0 || startNode <= nodes) {
+        if (startNode < 0 || startNode >= nodes) {
             System.out.println("Invalid start node. Please enter a valid node between 0 and " + (nodes - 1));
             return;
         }

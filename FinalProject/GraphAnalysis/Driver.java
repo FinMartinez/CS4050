@@ -1,18 +1,12 @@
 
 package GraphAnalysis;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Driver {
     
     public static void main(String[] args) {
-        /* 
-        // These were suggested, might be useful for testing or implementnation
-        HyperRingGraph graph = new HyperRingGraph(16);
-        graph.displayGraph();
-        graph.displayAdjencenyMatrix();
-        graph.dfs(0);
-        */
 
         Graph graph = null; // My Graph Class (adjacency matrix)
         Scanner scanner = new Scanner(System.in);
@@ -25,18 +19,15 @@ public class Driver {
             System.out.println("2. Display Graph Data");
             System.out.println("3. Run Dijkstra's Algorithm");
             System.out.println("4. Find Minimum Spanning Tree (MST)");
-            /* 
-             * System.out.println("5. Search Recommendation");
-             */
+            System.out.println("5. Search Recommendation (AI)");
             System.out.println("6. Exit");
 
             //Test Case
+            System.out.println("Test Cases:");
             System.out.println("7. Run Test");
             //End Test Case
 
-            System.out.println("Enter your choice: ");
-
-            int choice = scanner.nextInt();
+            int choice = getValidatedInput(scanner, "Enter your choice: ");
             scanner.nextLine(); // Consume newline character
 
             switch (choice) {
@@ -68,8 +59,7 @@ public class Driver {
                 case 3:
                     // Run Dijkstra's Algorithm
                     if (graph != null) {
-                        System.out.println("Enter the source node: ");
-                        int source = scanner.nextInt();
+                        int source = getValidatedInput(scanner, "Enter the source node: ");
                         graph.runDijkstra(source);
                     } else {
                         System.out.println("No graph data loaded. Please load graph data first.");
@@ -83,72 +73,82 @@ public class Driver {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
                     break;
-                /*
                 case 5:
                     // Search Recommenation
                     if (graph != null) {
-                        graph.connectivityAnalysis(); // Method for articulation points and bridges
+                        int sourceNode = getValidatedInput(scanner, "Enter the source node: "); 
+                        int targetNode = getValidatedInput(scanner, "Enter the target node: ");
+
+                        AIAnalyzer aiAnalyzer = new AIAnalyzer(graph, sourceNode, targetNode);
+                        aiAnalyzer.analyze();
                     } else {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
-                 */
+                    break;
                 case 6:
                     // Exit
                     exit = true;
                     System.out.println("Exiting the program. Goodbye!");
                     break;
                 case 7:
-                    // Test Cases
-                    System.out.println("Test case 1: Small Directed Graph:");
-                    Graph testGraph1 = new Graph(4);
-                    testGraph1.addEdge(0, 1, 4);
+                    System.out.println("Select Algorithm to test:");
+                    System.out.println("1. Dijkstra's Algorithm");
+                    System.out.println("2. BFS");
+                    System.out.println("3. DFS");
+                    System.out.println("4. MST");
+                    System.out.println("5. AI Analyzer");
+                    System.out.println("6. Exit Test Cases");
 
-
-
-
-
-                    Graph testGraph = new Graph(6);
-                    
-                    //Add edges
-                    testGraph.addEdge(0, 1, 4);
-                    testGraph.addEdge(0, 2, 3);
-                    testGraph.addEdge(1, 2, 2);
-                    testGraph.addEdge(1, 3, 5);
-                    testGraph.addEdge(2, 4, 1);
-                    testGraph.addEdge(3, 4, 2);
-                    testGraph.addEdge(4, 5, 6);
-
-                    //testGraph = GraphLoader.loadGraph("test.txt");
-                    testGraph.displayAdjencenyMatrix();
-                    testGraph.displayAdjencenyList();
-                    testGraph.runDijkstra(0);
-                    testGraph.findMST();
-                    testGraph.dfs(0);
-                    testGraph.bfs(0);
+                    int algorithmChoice = scanner.nextInt();
+                    switch (algorithmChoice) {
+                        case 1:
+                            // Test Dijkstra's Algorithm
+                            DijkstraTestCases dijkstraTestCases = new DijkstraTestCases();
+                            dijkstraTestCases.runTestsMenu(scanner);
+                            break;
+                        case 2:
+                            // Test BFS Algorithm
+                            BFSTestCases bfsTestCases = new BFSTestCases();
+                            bfsTestCases.runTestsMenu(scanner);
+                            break;
+                        case 3:
+                            // Test DFS Algorithm
+                            DFSTestCases dfsTestCases = new DFSTestCases();
+                            dfsTestCases.runTestsMenu(scanner);
+                            break;
+                        case 4:
+                            // Test MST Algorithm
+                            MSTTestCases mstTestCases = new MSTTestCases();
+                            mstTestCases.runTestsMenu(scanner);
+                            break;
+                        case 5:
+                            // Test AI Analyzer
+                            AIAnalyzerTest aiAnalyzerTestCases = new AIAnalyzerTest();
+                            aiAnalyzerTestCases.runTests();
+                            break;
+                        case 6:
+                            System.out.println("Exiting Test Cases...");
+                            break;
+                    default:
+                        System.out.println("Invalid choice. Please enter a valid choice.");
+                    }
                     break;
-                case 8:
-                    //AI Analysis Test Case
-                    System.out.println("Running AI Analysis...");
 
-                    //Load graph
-                    Graph aiGraph = new Graph(6);
-                    aiGraph.addEdge(0, 1, 4);
-                    aiGraph.addEdge(0, 2, 3);
-                    aiGraph.addEdge(1, 2, 2);
-                    aiGraph.addEdge(1, 3, 5);
-                    aiGraph.addEdge(2, 4, 1);
-                    aiGraph.addEdge(3, 4, 2);
-                    aiGraph.addEdge(4, 5, 6);
-
-                    //Creat AIAnalyzer
-                    AIAnalyzer analyzer = new AIAnalyzer(aiGraph, 0, 5);
-                    analyzer.analyze();
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please enter a valid choice.");
             }
         }
+    }
 
-        scanner.close();
+    private static int getValidatedInput(Scanner scanner, String message) {
+
+        while (true) {
+            System.out.print(message);
+
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
     }
 }
