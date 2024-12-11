@@ -23,23 +23,18 @@ public class DijkstraTestCases {
 
             switch (choice) {
                 case 1:
-                    // Test Adjacency Matrix
                     runSmallDirectedGraph();
                     break;
                 case 2:
-                    // Test Dijkstra's Algorithm
                     runSparseGraph();
                     break;
                 case 3:
-                    // Test BFS Algorithm
                     runCompleteGraph();
                     break;
                 case 4:
-                    // Test DFS Algorithm
                     runDisconnectedGraph();
                     break;
                 case 5:
-                    // Test MST Algorithm
                     runCyclicGraph();
                     break;
                 case 6:

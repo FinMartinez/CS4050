@@ -165,7 +165,7 @@ public class Graph {
         System.out.println("Minimum Spanning Tree:");
         for (int i = 1; i < nodes; i++) {
             if (parent[i] != -1) {
-                System.out.println(parent[i] + " - " + i + " (Wieght: " + adjacencyMatrix[parent[i]][i] + ")");
+                System.out.println(parent[i] + " - " + i + " (Weight: " + adjacencyMatrix[parent[i]][i] + ")");
             }
         }
     }

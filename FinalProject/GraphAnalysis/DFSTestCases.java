@@ -47,7 +47,7 @@ public class DFSTestCases {
 
     // Test Case 1: Small Directed Graph
     private void runSmallDirectedGraph(Scanner scanner) {
-        System.out.println("Test Case 1: Small Directed Graph (BFS)");
+        System.out.println("Test Case 1: Small Directed Graph (DFS)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 4);
         graph.addEdge(0, 2, 2);
@@ -62,7 +62,7 @@ public class DFSTestCases {
 
     // Test Case 2: Sparse Graph
     private void runSparseGraph(Scanner scanner) {
-        System.out.println("Test Case 2: Sparse Graph (BFS)");
+        System.out.println("Test Case 2: Sparse Graph (DFS)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 6);
         graph.addEdge(2, 3, 3);
@@ -75,7 +75,7 @@ public class DFSTestCases {
 
     // Test Case 3: Complete Graph
     private void runCompleteGraph(Scanner scanner) {
-        System.out.println("Test Case 3: Complete Graph (BFS)");
+        System.out.println("Test Case 3: Complete Graph (DFS)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 1);
         graph.addEdge(0, 2, 3);
@@ -92,7 +92,7 @@ public class DFSTestCases {
 
     // Test Case 4: Disconnected Graph
     private void runDisconnectedGraph(Scanner scanner) {
-        System.out.println("Test Case 4: Disconnected Graph (BFS)");
+        System.out.println("Test Case 4: Disconnected Graph (DFS)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 2);
         graph.addEdge(2, 3, 4);
@@ -105,7 +105,7 @@ public class DFSTestCases {
 
     // Test Case 5: Cyclic Graph
     private void runCyclicGraph(Scanner scanner) {
-        System.out.println("Test Case 5: Cyclic Graph (BFS)");
+        System.out.println("Test Case 5: Cyclic Graph (DFS)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 1);
         graph.addEdge(1, 2, 2);

@@ -1,0 +1,95 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>20</x><y>130</y><w>320</w><h>270</h></coordinates><panel_attributes>&lt;&lt;Driver&gt;&gt;
+Package::GraphAnalysis
+--
+-graph: Graph
+-scanner: Scanner
+-exit: boolean
+--
++main(String[] args)
+-getValidatedInput(scanner: Scanner, message: String)
+--
+Reponsibilities
+--GraphLoader
+--Graph
+--AIAnalyzer
+--AIAnalyzerTest
+--BFSTestCases
+--DFSTestCases
+--MSTTestCases
+--DijkstraTestCases</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>360</x><y>60</y><w>380</w><h>290</h></coordinates><panel_attributes>&lt;&lt;Graph&gt;&gt;
+Package::GraphAnalysis
+--
+-nodes: int
+-adjacencyMatrix: int[][]
+-adjacencyList: Map&lt;Integer, Set&lt;Integer&gt;&gt;
+--
++Graph(int nodes)
++addEdge(int from, to, weight):void
++displayAdjacencyMatrix: void
++displayAdjacencyList: void
++runDijkstra(int source):int
++dfs(int startNode):void
++dfsHelper(int node, boolean[] visited): void
++bfs(int startNode):void
++findMST:void
++bfsCost(int source, target):int
++dfsCost(int source, target):int
+-dfsCostHelper(int current, boolean[] visited, int[] distances): void
++findMSTCost:void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>760</x><y>60</y><w>270</w><h>80</h></coordinates><panel_attributes>&lt;&lt;GraphLoader&gt;&gt;
+Package::GraphAnalysis
+--
++loadGraphFromFile(String fileName):Graph
++loadGraphManually(Scanner scanner):Graph
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>20</x><y>440</y><w>230</w><h>190</h></coordinates><panel_attributes>&lt;&lt;BFSTestCases&gt;&gt;
+Package::GraphAnalysis
+--
++runTestsMenu(Scanner scanner):void
+-runSmallDirectedGraph:void
+-runSparseGraph:void
+-runCompleteGraph:void
+-runDisconnectGraph:void
+-runCyclicGraph:void</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>280</x><y>440</y><w>340</w><h>190</h></coordinates><panel_attributes>&lt;&lt;DFSTestCases&gt;&gt;
+Package::GraphAnalysis
+--
++runTestsMenu(Scanner scanner):void
+-runSmallDirectedGraph:void
+-runSparseGraph:void
+-runCompleteGraph:void
+-runDisconnectGraph:void
+-runCyclicGraph:void
+-getValidatedInput(Scanner scanner, String message):int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>440</y><w>330</w><h>190</h></coordinates><panel_attributes>&lt;&lt;MSTTestCases&gt;&gt;
+Package::GraphAnalysis
+--
++runTestsMenu(Scanner scanner):void
+-runSmallDirectedGraph:void
+-runSparseGraph:void
+-runCompleteGraph:void
+-runDisconnectGraph:void
+-runCyclicGraph:void
+-getValidatedInput(Scanner scanner, String message):int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>20</x><y>650</y><w>330</w><h>190</h></coordinates><panel_attributes>&lt;&lt;DijkstraTestCases&gt;&gt;
+Package::GraphAnalysis
+--
++runTestsMenu(Scanner scanner):void
+-runSmallDirectedGraph:void
+-runSparseGraph:void
+-runCompleteGraph:void
+-runDisconnectGraph:void
+-runCyclicGraph:void
+-getValidatedInput(Scanner scanner, String message):int</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>650</y><w>340</w><h>220</h></coordinates><panel_attributes>&lt;&lt;AIAnalyzer&gt;&gt;
+Package::GraphAnalysis
+--
+-graph: Graph
+-sourceNode: int
+-targetNode: int
+--
++AIAnalyzer(Graph graph, int sourceNode, int targetNode)
++analyze:void
+-runDijkstra:int
+-runBFS:int
+-runDFS:int
+-runMST:int
+-recommendedAlgorithm(Map&lt;String, Result&gt; results):void
+-Result &lt;Class&gt;</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>730</x><y>650</y><w>210</w><h>60</h></coordinates><panel_attributes>&lt;&lt;AIAnalyzerTest&gt;&gt;
+Package::GraphAnalysis
+--
++runTests:void</panel_attributes><additional_attributes></additional_attributes></element></diagram>

@@ -47,7 +47,7 @@ public class MSTTestCases {
 
     // Test Case 1: Small Directed Graph
     private void runSmallDirectedGraph() {
-        System.out.println("Test Case 1: Small Directed Graph (BFS)");
+        System.out.println("Test Case 1: Small Directed Graph (MST)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 4);
         graph.addEdge(0, 2, 2);
@@ -58,7 +58,7 @@ public class MSTTestCases {
 
     // Test Case 2: Sparse Graph
     private void runSparseGraph() {
-        System.out.println("Test Case 2: Sparse Graph (BFS)");
+        System.out.println("Test Case 2: Sparse Graph (MST)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 6);
         graph.addEdge(2, 3, 3);
@@ -67,7 +67,7 @@ public class MSTTestCases {
 
     // Test Case 3: Complete Graph
     private void runCompleteGraph() {
-        System.out.println("Test Case 3: Complete Graph (BFS)");
+        System.out.println("Test Case 3: Complete Graph (MST)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 1);
         graph.addEdge(0, 2, 3);
@@ -80,7 +80,7 @@ public class MSTTestCases {
 
     // Test Case 4: Disconnected Graph
     private void runDisconnectedGraph() {
-        System.out.println("Test Case 4: Disconnected Graph (BFS)");
+        System.out.println("Test Case 4: Disconnected Graph (MST)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 2);
         graph.addEdge(2, 3, 4);
@@ -89,7 +89,7 @@ public class MSTTestCases {
 
     // Test Case 5: Cyclic Graph
     private void runCyclicGraph() {
-        System.out.println("Test Case 5: Cyclic Graph (BFS)");
+        System.out.println("Test Case 5: Cyclic Graph (MST)");
         Graph graph = new Graph(4);
         graph.addEdge(0, 1, 1);
         graph.addEdge(1, 2, 2);

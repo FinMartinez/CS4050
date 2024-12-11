@@ -1,6 +1,5 @@
 package GraphAnalysis;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BFSTestCases {

@@ -18,13 +18,15 @@ public class Driver {
             System.out.println("1. Load Graph Data"); //Manual or by file?
             System.out.println("2. Display Graph Data");
             System.out.println("3. Run Dijkstra's Algorithm");
-            System.out.println("4. Find Minimum Spanning Tree (MST)");
-            System.out.println("5. Search Recommendation (AI)");
-            System.out.println("6. Exit");
+            System.out.println("4. Run BFS Algorithm");
+            System.out.println("5. Run DFS Algorithm");
+            System.out.println("6. Find Minimum Spanning Tree (MST)");
+            System.out.println("7. Search Recommendation (AI)");
+            System.out.println("8. Exit");
 
             //Test Case
             System.out.println("Test Cases:");
-            System.out.println("7. Run Test");
+            System.out.println("9. Run Test");
             //End Test Case
 
             int choice = getValidatedInput(scanner, "Enter your choice: ");
@@ -65,15 +67,33 @@ public class Driver {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
                     break;
-                case 4:
-                    // Find MST
+                case 4: 
+                    // Run BFS Algorithm
                     if (graph != null) {
-                        graph.findMST(); // Method for MST (Prim's or Kruskal's?)
+                        int source = getValidatedInput(scanner, "Enter the source node: ");
+                        graph.bfs(source);
                     } else {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
                     break;
                 case 5:
+                    // Run DFS Algorithm
+                    if (graph != null) {
+                        int source = getValidatedInput(scanner, "Enter the source node: ");
+                        graph.dfs(source);
+                    } else {
+                        System.out.println("No graph data loaded. Please load graph data first.");
+                    }
+                    break;
+                case 6:
+                    // Find MST
+                    if (graph != null) {
+                        graph.findMST(); // Method for MST (Prim's algorithm)
+                    } else {
+                        System.out.println("No graph data loaded. Please load graph data first.");
+                    }
+                    break;
+                case 7:
                     // Search Recommenation
                     if (graph != null) {
                         int sourceNode = getValidatedInput(scanner, "Enter the source node: "); 
@@ -85,12 +105,12 @@ public class Driver {
                         System.out.println("No graph data loaded. Please load graph data first.");
                     }
                     break;
-                case 6:
+                case 8:
                     // Exit
                     exit = true;
                     System.out.println("Exiting the program. Goodbye!");
                     break;
-                case 7:
+                case 9:
                     System.out.println("Select Algorithm to test:");
                     System.out.println("1. Dijkstra's Algorithm");
                     System.out.println("2. BFS");
