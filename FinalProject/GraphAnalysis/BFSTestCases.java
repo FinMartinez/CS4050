@@ -1,5 +1,6 @@
 package GraphAnalysis;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BFSTestCases {
@@ -17,7 +18,7 @@ public class BFSTestCases {
             System.out.println("6. Exit Test Cases");
             System.out.print("Enter your choice: ");
 
-            int choice = scanner.nextInt();
+            int choice = getValidatedInput(scanner, "Enter your choice: ");
 
             switch (choice) {
                 case 1:
@@ -96,5 +97,19 @@ public class BFSTestCases {
         graph.addEdge(2, 3, 3);
         graph.addEdge(3, 0, 1);
         graph.bfs(0);
+    }
+
+    private static int getValidatedInput(Scanner scanner, String message) {
+
+        while (true) {
+            System.out.print(message);
+
+            try {
+                return scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid integer.");
+                scanner.nextLine(); // Consume the invalid input
+            }
+        }
     }
 }
