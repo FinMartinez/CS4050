@@ -1,3 +1,32 @@
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: AIAnalyzerTest.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * The `AIAnalyzerTest` class validates the functionality of the `AIAnalyzer` class 
+ * by running predefined test cases on various graph structures, including:
+ * - Small directed graphs
+ * - Sparse graphs
+ * - Complete graphs
+ * - Disconnected graphs
+ * - Cyclic graphs
+ * 
+ * Features:
+ * - Five test cases representing different graph scenarios.
+ * - Verifies the recommendation and analysis results of `AIAnalyzer`.
+ * 
+ * Usage:
+ * - Instantiate the class and call `runTests()` to execute all test cases.
+ * 
+ * Dependencies:
+ * - Requires the `Graph` and `AIAnalyzer` classes.
+ */
+
 package GraphAnalysis;
 
 public class AIAnalyzerTest {

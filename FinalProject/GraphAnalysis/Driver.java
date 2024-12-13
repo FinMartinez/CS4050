@@ -1,4 +1,34 @@
 
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: Driver.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * This program serves as the main driver for a Graph Theory analysis tool. It 
+ * provides a menu-driven interface for users to:
+ * - Load graph data manually or from a file.
+ * - Display graph representations (adjacency matrix and list).
+ * - Execute graph algorithms such as Dijkstra's, BFS, DFS, and MST.
+ * - Utilize AI/ML-based recommendations for search or algorithm choices.
+ * - Run and evaluate test cases for algorithms and AI recommendations.
+ * 
+ * Features:
+ * - Interactive main menu for user-friendly operations.
+ * - Graph data loading and validation.
+ * - Integration of AI for recommending graph algorithms.
+ * - Comprehensive error handling and input validation.
+ * 
+ * Note:
+ * Ensure all dependencies such as Graph, GraphLoader, AIAnalyzer, and test case classes 
+ * (DijkstraTestCases, BFSTestCases, DFSTestCases, MSTTestCases, AIAnalyzerTest) are implemented 
+ * and correctly imported for seamless execution.
+ */
+
 package GraphAnalysis;
 
 import java.util.InputMismatchException;

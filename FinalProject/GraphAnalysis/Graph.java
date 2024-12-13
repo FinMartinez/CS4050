@@ -1,3 +1,41 @@
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: Graph.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * The `Graph` class provides an implementation of graph data structures and algorithms. 
+ * It supports both adjacency matrix and adjacency list representations and offers methods 
+ * for common graph operations including traversal, shortest path calculations, and 
+ * minimum spanning tree generation.
+ * 
+ * Features:
+ * - Graph Representations:
+ *   - Adjacency Matrix
+ *   - Adjacency List
+ * - Algorithms:
+ *   - Dijkstra's Algorithm for shortest path calculation
+ *   - Breadth-First Search (BFS) and Depth-First Search (DFS) for graph traversal
+ *   - Prim's Algorithm for Minimum Spanning Tree (MST)
+ * - Cost Analysis:
+ *   - Shortest path costs via BFS, DFS, and Dijkstra's Algorithm
+ *   - Total cost of MST
+ * - Modular design for integration with other components (e.g., AI Analyzer, test cases).
+ * 
+ * Usage:
+ * - Instantiate the `Graph` class with the number of nodes.
+ * - Use `addEdge` to define edges with weights.
+ * - Call methods such as `runDijkstra`, `bfs`, `dfs`, and `findMST` to perform graph operations.
+ * 
+ * Dependencies:
+ * Ensure that supporting classes (e.g., AIAnalyzer, GraphLoader) and test cases 
+ * are implemented to maximize the functionality of this class.
+ */
+
 package GraphAnalysis;
 
 import java.util.*;

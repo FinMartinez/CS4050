@@ -1,3 +1,32 @@
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: DijkstraTestCases.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * The `DijkstraTestCases` class tests the implementation of Dijkstra's algorithm 
+ * on various graph scenarios, including:
+ * - Small directed graphs
+ * - Sparse graphs
+ * - Complete graphs
+ * - Disconnected graphs
+ * - Cyclic graphs
+ * 
+ * Features:
+ * - Interactive menu for running specific test cases.
+ * - Validates shortest path calculations.
+ * 
+ * Usage:
+ * - Instantiate the class and call `runTestsMenu()` to execute test cases interactively.
+ * 
+ * Dependencies:
+ * - Requires the `Graph` class with a Dijkstra's algorithm implementation.
+ */
+
 package GraphAnalysis;
 
 import java.util.InputMismatchException;

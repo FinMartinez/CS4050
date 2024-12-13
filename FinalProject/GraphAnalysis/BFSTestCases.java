@@ -1,3 +1,32 @@
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: BFSTestCases.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * The `BFSTestCases` class evaluates the functionality of the BFS algorithm 
+ * by executing test cases on various graph structures:
+ * - Small directed graphs
+ * - Sparse graphs
+ * - Complete graphs
+ * - Disconnected graphs
+ * - Cyclic graphs
+ * 
+ * Features:
+ * - Menu-driven interface for selecting test cases.
+ * - Verifies BFS traversal results for different graph configurations.
+ * 
+ * Usage:
+ * - Instantiate the class and call `runTestsMenu()` to execute test cases interactively.
+ * 
+ * Dependencies:
+ * - Requires the `Graph` class with a BFS implementation.
+ */
+
 package GraphAnalysis;
 
 import java.util.InputMismatchException;

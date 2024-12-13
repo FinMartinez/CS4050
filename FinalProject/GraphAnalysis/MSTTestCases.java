@@ -1,3 +1,32 @@
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: MSTTestCases.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * The `MSTTestCases` class validates the implementation of Minimum Spanning Tree (MST) 
+ * algorithms on various graph types:
+ * - Small directed graphs
+ * - Sparse graphs
+ * - Complete graphs
+ * - Disconnected graphs
+ * - Cyclic graphs
+ * 
+ * Features:
+ * - Menu-driven interface for running test cases interactively.
+ * - Validates MST generation and cost calculation.
+ * 
+ * Usage:
+ * - Instantiate the class and call `runTestsMenu()` to execute test cases interactively.
+ * 
+ * Dependencies:
+ * - Requires the `Graph` class with MST implementation (e.g., Prim's Algorithm).
+ */
+
 package GraphAnalysis;
 
 import java.util.InputMismatchException;
@@ -37,7 +66,7 @@ public class MSTTestCases {
                     break;
                 case 6:
                     exit = true;
-                    System.out.println("Exiting BFS Test Cases.");
+                    System.out.println("Exiting MST Test Cases.");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");

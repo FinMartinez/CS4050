@@ -1,3 +1,32 @@
+/*
+ * Project Name: Graph Theory Analysis and AI Recommendations
+ * File Name: DFSTestCases.java
+ * Author: Fin Martinez
+ * Course: Algorithms and Analysis (CS 4050)
+ * Professor: Dr. Alsaffar
+ * Date: 12/11/2024
+ * Version: 1.0
+ * 
+ * Description:
+ * The `DFSTestCases` class evaluates the functionality of the DFS algorithm 
+ * by running test cases on different graph types:
+ * - Small directed graphs
+ * - Sparse graphs
+ * - Complete graphs
+ * - Disconnected graphs
+ * - Cyclic graphs
+ * 
+ * Features:
+ * - Menu-driven interface for interactive testing.
+ * - Allows users to specify the starting node for DFS traversal.
+ * 
+ * Usage:
+ * - Instantiate the class and call `runTestsMenu()` to select and run test cases.
+ * 
+ * Dependencies:
+ * - Requires the `Graph` class with a DFS implementation.
+ */
+
 package GraphAnalysis;
 
 import java.util.InputMismatchException;
